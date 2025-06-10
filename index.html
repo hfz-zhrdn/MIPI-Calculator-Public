@@ -52,7 +52,7 @@
           />
           <nav class="top-nav">
             <a href="index.html" class="nav-link active">User Configuration</a>
-            <a href="dphy.html" class="nav-link">D_PHY Parameter</a>
+            <a href="dphy.html" class="nav-link">DPHY Parameter</a>
             <a href="page2.html" class="nav-link">Bandwidth Calculator</a>
           </nav>
         </div>
@@ -77,9 +77,30 @@
           style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
         >
           <option value="CrossLink-NX">CrossLink-NX</option>
-          <option value="CrossLinkU-NX">CrossLinkU-NX</option>
           <option value="Avant">Avant</option>
-          <option value="Nexus">Nexus</option>
+        </select>
+      </div>
+    </div>
+    <div
+      style="
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+      "
+    >
+      <div style="display: flex; align-items: center; gap: 0.7rem">
+        <label for="device-select" style="font-weight: bold; font-size: 1em">
+          Package:
+        </label>
+        <select
+          id="device-select"
+          style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
+        >
+          <option value="WLCSP84">WLCSP84</option>
+          <option value="FCCSP104">FCCSP104</option>
+          <option value="QFN72">QFN72/WLCSP72</option>
         </select>
       </div>
     </div>
