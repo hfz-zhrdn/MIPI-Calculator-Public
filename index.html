@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lattice User Configuration</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Banner/Header -->
+    <header class="main-banner">
+      <div class="banner-content">
+        <!-- Theme toggle button -->
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle dark/light mode"
+          style="margin-right: 1.2rem"
+        >
+          <span class="icon-sun">
+            <!-- Sun icon SVG -->
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="5" fill="currentColor" />
+              <g stroke="currentColor" stroke-width="2">
+                <line x1="11" y1="1" x2="11" y2="4" />
+                <line x1="11" y1="18" x2="11" y2="21" />
+                <line x1="1" y1="11" x2="4" y2="11" />
+                <line x1="18" y1="11" x2="21" y2="11" />
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                <line x1="15.66" y1="15.66" x2="17.78" y2="17.78" />
+                <line x1="4.22" y1="17.78" x2="6.34" y2="15.66" />
+                <line x1="15.66" y1="6.34" x2="17.78" y2="4.22" />
+              </g>
+            </svg>
+          </span>
+          <span class="icon-moon">
+            <!-- Moon icon SVG -->
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path
+                d="M17 14.5A7 7 0 0 1 7.5 5c0-.17.01-.34.02-.5A7 7 0 1 0 17 14.5Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+        <!-- Logo and navigation side by side -->
+        <div style="display: flex; align-items: center; gap: 2rem">
+          <img
+            src="lattice-logo.png"
+            alt="Lattice Semiconductor Logo"
+            class="banner-logo"
+          />
+          <nav class="top-nav">
+            <a href="index.html" class="nav-link active">User Configuration</a>
+            <a href="dphy.html" class="nav-link">D_PHY Parameter</a>
+            <a href="page2.html" class="nav-link">Bandwidth Calculator</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!-- Device selector below banner -->
+    <div
+      style="
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+      "
+    >
+      <div style="display: flex; align-items: center; gap: 0.7rem">
+        <label for="device-select" style="font-weight: bold; font-size: 1em">
+          Device:
+        </label>
+        <select
+          id="device-select"
+          style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
+        >
+          <option value="CrossLink-NX">CrossLink-NX</option>
+          <option value="CrossLinkU-NX">CrossLinkU-NX</option>
+          <option value="Avant">Avant</option>
+          <option value="Nexus">Nexus</option>
+        </select>
+      </div>
+    </div>
+    <div class="main-content-row">
+      <div
+        class="description-box"
+        style="margin-left: 5rem; margin-top: 3.2rem"
+      >
+        <div class="desc-title">User Configuration</div>
+        <div class="desc-text" style="font-weight: normal">
+          This page allows you to calculate the bandwidth and clock frequencies
+          <br />
+          for the Lattice devices based on the input parameters.<br />
+          <br />
+          <strong>Instructions:</strong><br />
+          1. Select your device from the Device dropdown above.<br />
+          2. Enter the respective parameters in the input fields.<br />
+          3. Clicking "Calculate" will display the required values for ***<br />
+        </div>
+      </div>
+      <div class="container center-fields">
+        <div class="input-fields-wrapper">
+          <div class="fields-section">
+            <!-- Left column: main input fields -->
+            <div class="fields-col">
+              <!-- 1. RD Mode dropdown -->
+              <div class="field-group">
+                <label for="input1">RD Mode</label>
+                <select id="input1">
+                  <option value="HW_DEBUG">HW_DEBUG</option>
+                </select>
+                <div class="error-message" id="error1"></div>
+              </div>
+              <!-- 2. Line Rate (Mbps) -->
+              <div class="field-group">
+                <label for="input2">Line Rate (Mbps)</label>
+                <input
+                  type="number"
+                  id="input2"
+                  min="160"
+                  max="800"
+                  step="1"
+                  autocomplete="off"
+                  placeholder="160-800"
+                  value="160"
+                />
+                <div class="error-message" id="error2"></div>
+              </div>
+              <!-- 3. Number of Lanes -->
+              <div class="field-group">
+                <label for="input3">Number of Lanes</label>
+                <input
+                  type="number"
+                  id="input3"
+                  min="1"
+                  max="12"
+                  step="1"
+                  placeholder="1-12"
+                  autocomplete="off"
+                  value="1"
+                />
+                <div class="error-message" id="error3"></div>
+              </div>
+              <!-- 4. Number of Gear (fixed at 8) -->
+              <div class="field-group">
+                <label for="input4">Number of Gear (fixed at 8)</label>
+                <input type="number" id="input4" value="8" readonly />
+                <div class="error-message" id="error4"></div>
+              </div>
+              <!-- Buttons directly under Number of Gear (desktop) -->
+              <div class="button-row">
+                <button id="calculate-btn" class="action-btn">Calculate</button>
+                <button id="clear-btn" class="action-btn">Clear</button>
+              </div>
+            </div>
+            <!-- Right column: additional input fields -->
+            <div class="fields-col">
+              <!-- 5. Clock Mode dropdown -->
+              <div class="field-group">
+                <label for="input5">Clock Mode</label>
+                <select id="input5">
+                  <option value="Continuous" selected>Continuous</option>
+                  <option value="Non-Continuous">Non-Continuous</option>
+                </select>
+                <div class="error-message" id="error5"></div>
+              </div>
+              <!-- 6. Data Type dropdown -->
+              <div class="field-group">
+                <label for="input6">Data Type</label>
+                <select id="input6">
+                  <option value="RAW8" selected>RAW8</option>
+                  <option value="RAW10">RAW10</option>
+                  <option value="RAW12">RAW12</option>
+                  <option value="RAW14">RAW14</option>
+                  <option value="RAW16">RAW16</option>
+                  <option value="YUV_420_8">YUV_420_8</option>
+                  <option value="YUV_420_10">YUV_420_10</option>
+                  <option value="YUV_422_8">YUV_422_8</option>
+                  <option value="YUV_422_10">YUV_422_10</option>
+                  <option value="RGB888">RGB888</option>
+                </select>
+                <div class="error-message" id="error6"></div>
+              </div>
+              <!-- 7. Pixel per Clock -->
+              <div class="field-group">
+                <label for="input7">Pixel per Clock</label>
+                <input
+                  type="number"
+                  id="input7"
+                  min="1"
+                  max="10"
+                  step="1"
+                  placeholder="1-10"
+                  autocomplete="off"
+                  value="1"
+                />
+                <div class="error-message" id="error7"></div>
+              </div>
+              <!-- 8. Reference Clock Frequency (MHz) -->
+              <div class="field-group">
+                <label for="input8">Ref. Clock Frequency (MHz)</label>
+                <input
+                  type="number"
+                  id="input8"
+                  min="1"
+                  step="1"
+                  autocomplete="off"
+                  placeholder="Insert number here"
+                  value="25"
+                />
+                <div class="error-message" id="error8"></div>
+              </div>
+              <!-- Buttons under Ref Clock Frequency (mobile/vertical) -->
+              <div class="button-row">
+                <button id="calculate-btn-mobile" class="action-btn">
+                  Calculate
+                </button>
+                <button id="clear-btn-mobile" class="action-btn">Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Output section (hidden by default) -->
+        <div class="outputs-section" id="outputs-section" style="display: none">
+          <div class="output-group">
+            <div class="output-label">Number of Bits/Clock</div>
+            <div class="output-value" id="output1"></div>
+          </div>
+          <div class="output-group">
+            <div class="output-label">D_PHY Clock (MHz)</div>
+            <div class="output-value" id="output2"></div>
+          </div>
+          <div class="output-group">
+            <div class="output-label">Pixel Clock Frequency (MHz)</div>
+            <div class="output-value" id="output3"></div>
+          </div>
+          <div class="output-group">
+            <div class="output-label">Byte Clock Frequency</div>
+            <div class="output-value" id="output4"></div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="description-box"
+        style="margin-right: 5rem; margin-top: 1.7rem"
+      >
+        <div class="desc-title">Supported Data Type Table</div>
+        <table class="table-border">
+          <tbody>
+            <tr style="font-weight: bold">
+              <td>CSI-2 Supported Data Type 8</td>
+              <td>Pixel Data Output Width</td>
+            </tr>
+            <tr>
+              <td>RAW8</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>RAW10</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>RAW12</td>
+              <td>12</td>
+            </tr>
+            <tr>
+              <td>RAW14</td>
+              <td>14</td>
+            </tr>
+            <tr>
+              <td>RAW16</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>YUV_420_8</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>YUV_420_10</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>YUV_422_8</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>YUV_422_10</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>RGB888</td>
+              <td>24</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Scroll to top button -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle
+          cx="14"
+          cy="14"
+          r="13"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+        />
+        <polyline
+          points="9,16 14,11 19,16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <script src="app.js"></script>
+    <script>
+      // Make mobile buttons work like desktop ones
+      document.addEventListener("DOMContentLoaded", function () {
+        const calcBtn = document.getElementById("calculate-btn");
+        const clearBtn = document.getElementById("clear-btn");
+        const calcBtnMobile = document.getElementById("calculate-btn-mobile");
+        const clearBtnMobile = document.getElementById("clear-btn-mobile");
+        if (calcBtn && calcBtnMobile) {
+          calcBtnMobile.addEventListener("click", () => calcBtn.click());
+        }
+        if (clearBtn && clearBtnMobile) {
+          clearBtnMobile.addEventListener("click", () => clearBtn.click());
+        }
+      });
+    </script>
+  </body>
+</html>

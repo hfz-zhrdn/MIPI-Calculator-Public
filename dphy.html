@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DPHY Timing Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="main-banner">
+      <div class="banner-content">
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle dark/light mode"
+          style="margin-right: 1.2rem"
+        >
+          <span class="icon-sun">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="5" fill="currentColor" />
+              <g stroke="currentColor" stroke-width="2">
+                <line x1="11" y1="1" x2="11" y2="4" />
+                <line x1="11" y1="18" x2="11" y2="21" />
+                <line x1="1" y1="11" x2="4" y2="11" />
+                <line x1="18" y1="11" x2="21" y2="11" />
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                <line x1="15.66" y1="15.66" x2="17.78" y2="17.78" />
+                <line x1="4.22" y1="17.78" x2="6.34" y2="15.66" />
+                <line x1="15.66" y1="6.34" x2="17.78" y2="4.22" />
+              </g>
+            </svg>
+          </span>
+          <span class="icon-moon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path
+                d="M17 14.5A7 7 0 0 1 7.5 5c0-.17.01-.34.02-.5A7 7 0 1 0 17 14.5Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+        <div style="display: flex; align-items: center; gap: 2rem">
+          <img
+            src="lattice-logo.png"
+            alt="Lattice Semiconductor Logo"
+            class="banner-logo"
+          />
+          <nav class="top-nav">
+            <a href="index.html" class="nav-link">User Configuration</a>
+            <a href="dphy.html" class="nav-link active">DPHY Parameter</a>
+            <a href="page2.html" class="nav-link">Bandwidth Calculator</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!-- Device selector below banner -->
+    <div
+      style="
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+      "
+    >
+      <div style="display: flex; align-items: center; gap: 0.7rem">
+        <label for="device-select" style="font-weight: bold; font-size: 1em"
+          >Device:</label
+        >
+        <select
+          id="device-select"
+          style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
+        >
+          <option value="CrossLink-NX">CrossLink-NX</option>
+          <option value="CrossLinkU-NX">CrossLinkU-NX</option>
+          <option value="Avant">Avant</option>
+          <option value="Nexus">Nexus</option>
+        </select>
+      </div>
+    </div>
+    <main>
+      <div
+        class="container center-fields"
+        style="max-width: 420px; margin: 2rem auto 1.5rem auto"
+      >
+        <form id="dphy-form" autocomplete="off">
+          <div class="field-group">
+            <label for="dphy-clock">DPHY Clock Frequency (MHz):</label>
+            <input
+              type="number"
+              id="dphy-clock"
+              min="1"
+              step="any"
+              placeholder="Insert number here"
+              required
+            />
+          </div>
+          <div class="button-row" style="margin-top: 1.2rem">
+            <button type="button" id="calc-dphy-btn" class="action-btn">
+              Calculate
+            </button>
+            <button type="reset" class="action-btn">Clear</button>
+          </div>
+        </form>
+      </div>
+      <div class="description-box" style="max-width: 900px; margin: 0 auto">
+        <div class="desc-title">DPHY Timing Outputs</div>
+        <table
+          class="table-border"
+          id="dphy-output-table"
+          style="width: 100%; margin-top: 1.2rem"
+        >
+          <thead>
+            <tr style="font-weight: bold">
+              <td>Parameter</td>
+              <td>Min</td>
+              <td>Max</td>
+              <td>Choice</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>D_PHY Clock per (ns)</td>
+              <td id="out-clock-per-min"></td>
+              <td id="out-clock-per-max"></td>
+              <td id="out-clock-per-choice"></td>
+            </tr>
+            <tr>
+              <td>Byte Clock Frequency (MHz)</td>
+              <td id="out-byte-freq-min"></td>
+              <td id="out-byte-freq-max"></td>
+              <td id="out-byte-freq-choice"></td>
+            </tr>
+            <tr>
+              <td>Byte Clock per (ns)</td>
+              <td id="out-byte-per-min"></td>
+              <td id="out-byte-per-max"></td>
+              <td id="out-byte-per-choice"></td>
+            </tr>
+            <tr>
+              <td>t_LPX</td>
+              <td id="out-lpx-min"></td>
+              <td id="out-lpx-max"></td>
+              <td id="out-lpx-choice"></td>
+            </tr>
+            <tr>
+              <td>t_HS-PREPARE</td>
+              <td id="out-hs-prepare-min"></td>
+              <td id="out-hs-prepare-max"></td>
+              <td id="out-hs-prepare-choice"></td>
+            </tr>
+            <tr>
+              <td>TX_TCLK_HSZERO</td>
+              <td id="out-tclk-hszero-min"></td>
+              <td id="out-tclk-hszero-max"></td>
+              <td id="out-tclk-hszero-choice"></td>
+            </tr>
+            <tr>
+              <td>t_HS_TRAIL</td>
+              <td id="out-hs-trail-min"></td>
+              <td id="out-hs-trail-max"></td>
+              <td id="out-hs-trail-choice"></td>
+            </tr>
+            <tr>
+              <td>t_HS_EXIT</td>
+              <td id="out-hs-exit-min"></td>
+              <td id="out-hs-exit-max"></td>
+              <td id="out-hs-exit-choice"></td>
+            </tr>
+            <tr>
+              <td>t_CLK-Prepare</td>
+              <td id="out-clk-prepare-min"></td>
+              <td id="out-clk-prepare-max"></td>
+              <td id="out-clk-prepare-choice"></td>
+            </tr>
+            <tr>
+              <td>t_CLK-ZERO</td>
+              <td id="out-clk-zero-min"></td>
+              <td id="out-clk-zero-max"></td>
+              <td id="out-clk-zero-choice"></td>
+            </tr>
+            <tr>
+              <td>t_CLK-PRE</td>
+              <td id="out-clk-pre-min"></td>
+              <td id="out-clk-pre-max"></td>
+              <td id="out-clk-pre-choice"></td>
+            </tr>
+            <tr>
+              <td>t_CLK-POST</td>
+              <td id="out-clk-post-min"></td>
+              <td id="out-clk-post-max"></td>
+              <td id="out-clk-post-choice"></td>
+            </tr>
+            <tr>
+              <td>t_CLK-TRAIL</td>
+              <td id="out-clk-trail-min"></td>
+              <td id="out-clk-trail-max"></td>
+              <td id="out-clk-trail-choice"></td>
+            </tr>
+            <tr>
+              <td>t_CLK-EXIT</td>
+              <td id="out-clk-exit-min"></td>
+              <td id="out-clk-exit-max"></td>
+              <td id="out-clk-exit-choice"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <script src="dphy.js"></script>
+  </body>
+</html>

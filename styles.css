@@ -1,0 +1,951 @@
+/* 
+  Main color and sizing variables.
+  Change these for global color and sizing adjustments.
+*/
+
+.main-banner {
+  position: relative;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 0.5rem 1rem;
+}
+
+.banner-logo {
+  height: 30px;
+  margin-right: 2rem;
+}
+
+.banner-nav {
+  display: flex;
+  gap: 2rem;
+  flex: 1;
+  justify-content: center;
+}
+
+/* .banner-underline {
+  width: 100%;
+  height: 4px;
+  background: #ffd600;
+  margin-top: 0;
+} */
+
+
+
+:root {
+  --bg: #fff;
+  --text: #111;
+  --input-bg: #fffbe7;
+  --input-border: #ffe066;
+  --input-focus: #ffd600;
+  --output-bg: #fffde7;
+  --output-border: #ffe066;
+  --output-label: #ffb300;
+  --output-value: #222;
+  --accent: #ffd600;
+  --shadow: 0 4px 24px rgba(255, 221, 51, 0.08);
+  --transition: 0.3s cubic-bezier(.4, 0, .2, 1);
+  --error: #e53935;
+}
+
+/* Light and dark mode overrides */
+body.light {
+  --bg: #fff;
+  --text: #111;
+  --input-bg: #fffbe7;
+  --input-border: #111;
+  --input-focus: #111;
+  --output-bg: #fffde7;
+  --output-border: #111;
+  --output-label: #111;
+  --output-value: #111;
+  --accent: #ffd600;
+  --shadow: 0 4px 24px rgba(255, 221, 51, 0.08);
+  --label-color: #111;
+}
+
+body.dark {
+  --bg: #181a1b;
+  --text: #fffde7;
+  --input-bg: #23272a;
+  --input-border: #ffd600;
+  --input-focus: #ffe066;
+  --output-bg: #23272a;
+  --output-border: #ffd600;
+  --output-label: #ffe066;
+  --output-value: #fffde7;
+  --accent: #ffd600;
+  --shadow: 0 4px 24px rgba(255, 221, 51, 0.12);
+  --label-color: #ffe066;
+}
+
+body {
+  background: var(--bg);
+  /* Page background color */
+  color: var(--text);
+  /* Main text color */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: block;
+  font-size: 0.85rem;
+  /* Change for global font size */
+}
+
+/* Theme toggle button (top right) */
+.theme-toggle {
+  position: fixed;
+  top: unset;
+  bottom: 1.2rem;
+  right: 0.5rem;
+  background: var(--input-bg);
+  color: var(--accent);
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.08);
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+  z-index: 10;
+  overflow: hidden;
+  padding: 0;
+}
+
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  position: absolute;
+  transition: opacity var(--transition), transform var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle .icon-sun {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.theme-toggle .icon-moon {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+body.dark .theme-toggle .icon-sun {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+body.dark .theme-toggle .icon-moon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.theme-toggle:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/*Navigation Button*/
+.main-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background: var(--input-bg);
+  padding: 1.2rem 0 0.7rem 0;
+  border-radius: 0 0 0.7rem 0.7rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  margin-bottom: 1.2rem;
+}
+
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.08em;
+  padding: 0.3rem 1.2rem;
+  border-radius: 0.4rem;
+  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: var(--accent);
+  color: #111;
+  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.10);
+}
+
+.main-content-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2.5rem; /* Equal spacing between description, input, and table */
+  width: 100%;
+  justify-content: center;
+  position: relative;
+}
+
+.description-box {
+  position: static;
+  max-width: 320px;
+  min-width: 220px;
+  margin-bottom: 0.7rem;
+  margin-left: 0;
+  font-weight: bold;
+  font-size: 1.1em;
+  flex: 0 1 320px;
+}
+
+/* Table description box on the right */
+.main-content-row .description-box:last-child {
+  min-width: 260px;
+  max-width: 350px;
+  flex: 0 1 350px;
+}
+
+.table-border {
+  border-collapse: collapse;
+  width: 100%;
+  font-weight: normal;
+  text-align: center;
+}
+
+.table-border td, .table-border th {
+  border: 1px solid #888;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+/* Main container for all fields and outputs */
+.container {
+  display: flex;
+  flex-direction: row;
+  /* Change to column for vertical layout */
+  gap: 1.2rem;
+  /* Space between columns */
+  background: var(--input-bg);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.2rem;
+  /* Container padding */
+  margin-top: 50rem;
+  /* Center horizontally */
+  transition: background var(--transition), box-shadow var(--transition);
+  align-items: center;
+  max-width: 600px;
+  /* Change for wider/narrower container */
+  width: fit-content;
+  max-height: min-content;
+  justify-content: center;
+}
+
+.container.center-fields {
+  justify-content: center;
+  align-items: center;
+  transition: justify-content var(--transition), align-items var(--transition), padding var(--transition);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Wrapper for input fields */
+.input-fields-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 500px;
+  position: relative;
+}
+
+/* Section containing both columns */
+.fields-section {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 2rem;
+  /* Space between columns */
+}
+
+/* Each column of fields */
+.fields-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.fields-col:first-child {
+  margin-top: 0rem;
+  /* Adjust this value as needed (negative moves up, positive moves down) */
+}
+
+/* Move right column up if needed (edit margin-top value) */
+.fields-col:last-child {
+  margin-top: 0.2rem;
+  /* Adjust this value to move right column up/down */
+}
+
+/* Button row under Number of Gear (desktop) */
+.fields-col .button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-top: 0.7rem;
+  padding-top: 0;
+}
+
+/* Hide right column button-row on desktop */
+.fields-col:last-child .button-row {
+  display: none;
+}
+
+
+
+/* Output section styles */
+.outputs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transition: transform var(--transition);
+}
+
+.outputs-section {
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(30px) scale(0.98);
+  transition:
+    opacity var(--transition),
+    visibility var(--transition),
+    transform var(--transition);
+}
+
+.outputs-section.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  animation: fadeInSlideUp 0.5s cubic-bezier(.4, 0, .2, 1);
+}
+
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.outputs-section.hiding {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(30px) scale(0.98);
+  transition:
+    opacity var(--transition),
+    visibility var(--transition),
+    transform var(--transition);
+}
+
+.output-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: var(--output-bg);
+  border: 2px solid var(--output-border);
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.7rem;
+  min-height: 36px;
+  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.04);
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.output-group span,
+#bandwidth-output {
+  color: #fff !important;
+  /* or another color that contrasts your background */
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.output-label {
+  font-weight: 600;
+  color: var(--output-label);
+  font-size: 0.92em;
+  margin-bottom: 0.1rem;
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
+}
+
+.output-value {
+  color: var(--output-value);
+  font-size: 0.92em;
+  word-break: break-all;
+  transition: color var(--transition);
+}
+
+/* Field group (label + input) */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.field-group label,
+.output-label {
+  color: var(--label-color);
+  font-weight: 600;
+  transition: color var(--transition);
+  font-size: 0.92em;
+}
+
+.field-group input[type="text"],
+.field-group input[type="number"],
+.field-group select {
+  padding: 0.35rem 0.7rem;
+  /* Input padding */
+  border: 2px solid var(--input-border);
+  border-radius: 0.4rem;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 0.92em;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
+  outline: none;
+  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.04);
+  width: 160px;
+  /* Input width, change for wider/narrower fields */
+  max-width: 160px;
+  box-sizing: border-box;
+}
+
+/* Error and highlight styles */
+.field-group input[type="text"].error,
+.field-group input[type="number"].error,
+.field-group select.error {
+  border-color: var(--error);
+}
+
+@keyframes inputHighlight {
+  0% {
+    box-shadow: 0 0 0 0 #e5393533;
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px #e5393533;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 #e5393533;
+  }
+}
+
+input[type="text"].highlight,
+input[type="number"].highlight,
+select.highlight {
+  animation: inputHighlight 0.7s;
+}
+
+.error-message {
+  color: var(--error);
+  font-size: 0.7em;
+  font-style: italic;
+  margin-top: 0.00001rem;
+  min-height: 1.1em;
+  transition: opacity var(--transition);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.error-message.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.field-group input[type="text"]:focus,
+.field-group input[type="number"]:focus,
+.field-group select:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* Button styles */
+.button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-top: 0.7rem;
+  padding-top: 0;
+}
+
+.action-btn {
+  background: #ffdd33;
+  color: #232426;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.08);
+}
+
+.action-btn:hover {
+  background: #ffe066;
+  color: #111;
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* Scroll to top button */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--input-bg);
+  color: var(--accent);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    opacity var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+}
+
+.scroll-top-btn:hover {
+  background: var(--accent);
+  color: var(--text);
+  transform: scale(1.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*Bandwidth Calculator*/
+/* Card-like container for the calculator */
+
+.bandwidth-card {
+  max-width: 420px;
+  margin: 3rem auto 2rem auto;
+  margin-top: 5.5rem;
+  background: #232426;
+  border-radius: 20px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Center the form fields vertically */
+.bandwidth-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  align-items: center;
+}
+
+/* Field group styling */
+.bandwidth-fields .field-group {
+  width: 200px;
+  max-width: 320px;
+  align-items: center;
+}
+
+/* Button row centered */
+.bandwidth-buttons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.container {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #232426;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+
+
+/* Field label and input styling */
+.field-group label {
+  display: block;
+  font-weight: 600;
+  color: #ffdd33;
+  margin-bottom: 0.3rem;
+  font-size: 1em;
+}
+
+.field-group input[type="number"] {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 2px solid #ffdd33;
+  border-radius: 0.4rem;
+  background: #232426;
+  color: #fff;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.field-group input[type="number"]:focus {
+  border-color: #fff700;
+}
+
+/* Output group styling */
+.bandwidth-output-group {
+  width: 100%;
+  max-width: 320px;
+  margin: 1.5rem auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#bandwidth-output, #b2p-bandwidth-output, #byteclock-output {
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 0.3rem;
+  min-height: 1.5em;
+  text-align: center;
+}
+
+#calc-p2b-btn:hover,
+.clear-btn:hover {
+  background: #fff700;
+  color: #232426;
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+  #input-to-p2b-section {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .output-group {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Responsive: vertical layout for mobile/tablet */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 0.7rem 0.3rem;
+    margin-top: 0.5rem;
+    max-width: 98vw;
+  }
+
+  .fields-section {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .fields-col .button-row {
+    display: none;
+  }
+
+  .fields-col:last-child .button-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-top: 0.7rem;
+    padding-top: 0;
+  }
+
+  .fields-col:last-child {
+    margin-top: 0;
+    /* Remove negative margin on mobile */
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 600px) {
+  .container {
+    padding: 0.3rem 0.1rem;
+    border-radius: 0.5rem;
+  }
+
+  .field-group input[type="text"],
+  .field-group input[type="number"],
+  .field-group select {
+    font-size: 0.85em;
+    padding: 0.4rem 0.5rem;
+    width: 98vw;
+    max-width: 98vw;
+  }
+
+  .output-group {
+    font-size: 0.85em;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+/* Always-dark banner and navigation */
+.main-banner,
+.banner-content,
+.banner-nav,
+.banner-underline {
+  background: #232426 !important;
+  color: #fffde7 !important;
+}
+
+.banner-logo {
+  filter: none !important;
+}
+
+.banner-link,
+.banner-link:visited {
+  color: #fffde7 !important;
+}
+
+.banner-link.active,
+.banner-link:hover {
+  background: #ffd600 !important;
+  color: #232426 !important;
+}
+
+.banner-underline {
+  background: #ffd600 !important;
+}
+
+.top-nav,
+.main-nav {
+  background: #232426 !important;
+  color: #fffde7 !important;
+}
+
+/* Resize the .top-nav */
+.top-nav {
+  height: 22px;
+  /* Adjust the height */
+  padding: 0.5rem 2rem;
+  /* Adjust the padding */
+  font-size: 1rem;
+  /* Adjust the font size of the text */
+  max-width: 1500px;
+  /* Optional: Set a maximum width */
+  margin: 0 auto;
+  /* Center it horizontally */
+}
+
+.nav-link,
+.nav-link:visited {
+  color: #fffde7 !important;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  background: #ffd600 !important;
+  color: #232426 !important;
+}
+
+/* Light mode: force white backgrounds for main container and fields */
+body.light .container,
+body.light .bandwidth-card {
+  background: #fff !important;
+  color: #111 !important;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.08);
+}
+
+body.light .field-group input[type="text"],
+body.light .field-group input[type="number"],
+body.light .field-group select {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #000 !important;
+}
+
+body.light .field-group label,
+body.light .output-label {
+  color: #000 !important;
+}
+
+body.light #bandwidth-output,
+body.light #byteclock-output,
+body.light #b2p-bandwidth-output{
+  color: #000 !important;
+}
+
+.mode-selector {
+  display: flex;
+  margin-top: 1.6rem; 
+  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-bottom: auto;
+  z-index: auto;
+}
+
+.mode-selector label {
+  font-size: 1rem;
+  /* Adjust label font size */
+  font-weight: bold;
+  /* Make the label bold */
+  color: var(--text);
+  /* Use theme text color */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.mode-selector select {
+  width: 100%;
+  /* Make the dropdown full width */
+  padding: 0.5rem;
+  /* Add padding inside the dropdown */
+  border: 2px solid var(--input-border);
+  /* Add border */
+  border-radius: 0.4rem;
+  /* Round the corners */
+  background: var(--input-bg);
+  /* Use theme background color */
+  color: var(--text);
+  /* Use theme text color */
+  font-size: 1rem;
+  /* Adjust font size */
+}
+
+/* APB Register Configuration page styles */
+.apb-register .container {
+  max-width: 900px;
+  margin: 2.5rem auto 0 auto;
+  background: var(--input-bg);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  padding: 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.apb-register .fields-section {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.apb-register .fields-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.apb-register .field-group label {
+  color: var(--label-color);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.apb-register .field-group input[type="number"] {
+  width: 100%;
+  padding: 0.4rem 0.7rem;
+  border: 2px solid var(--input-border);
+  border-radius: 0.4rem;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.apb-register .field-group input[type="number"]:focus {
+  border-color: var(--input-focus);
+}
+
+.apb-register .button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-top: 1.2rem;
+}
+
+.apb-register .outputs-section {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.apb-register .output-group {
+  background: var(--output-bg);
+  border: 2px solid var(--output-border);
+  border-radius: 0.4rem;
+  padding: 0.7rem 1.2rem;
+  min-width: 180px;
+  min-height: 36px;
+  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.04);
+  margin-bottom: 0.5rem;
+}
+
+.apb-register .output-label {
+  color: var(--output-label);
+  font-weight: 600;
+  font-size: 0.95em;
+  margin-bottom: 0.1rem;
+}
+
+.apb-register .output-value {
+  color: var(--output-value);
+  font-size: 1em;
+  word-break: break-all;
+}
+
+#dphy-output-table td,
+#dphy-output-table th {
+  width: 150px;
+}
