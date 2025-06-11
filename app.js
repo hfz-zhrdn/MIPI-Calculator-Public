@@ -24,24 +24,19 @@ themeToggle.onclick = () => {
 
 // Input, error, and output field references. Only use fields that exist in the HTML.
 const inputFields = [
-  document.getElementById('input1'), // RD Mode (select)
-  document.getElementById('input2'), // Line Rate (number)
-  document.getElementById('input3'), // Number of Lanes (number)
-  document.getElementById('input4'), // Number of Gear (fixed)
-  document.getElementById('input5'), // Clock Mode (select)
-  document.getElementById('input6'), // Data Type (select)
-  document.getElementById('input7'), // Pixel per Clock (number)
-  document.getElementById('input8'), // Reference Clock Frequency (number)
+  document.getElementById('input1'), // Line Rate (number)
+  document.getElementById('input2'), // Number of Lanes (number)
+  document.getElementById('input3'), // Number of Gear (fixed)
+  document.getElementById('input4'), // Data Type (select)
+  document.getElementById('input5'), // Pixel per Clock (number)
+
 ];
 const errorFields = [
-  document.getElementById('error1'),
-  document.getElementById('error2'),
-  document.getElementById('error3'),
-  document.getElementById('error4'),
-  document.getElementById('error5'),
-  document.getElementById('error6'),
-  document.getElementById('error7'),
-  document.getElementById('error8'),
+  document.getElementById('error1'), //Line Rate
+  document.getElementById('error2'), //Num of Lanes
+  document.getElementById('error3'), //Num of gear
+  document.getElementById('error4'), //Data Type
+  document.getElementById('error5'), //Pixel per Clock
 ];
 const outputFields = [
   document.getElementById('output1'),
@@ -82,81 +77,65 @@ function validateFields() {
   let valid = true;
   let firstErrorInput = null;
 
-  // 1. RD Mode (dropdown, always valid)
+  
+
+// 2. Line Rate (160-800, integer)
+let val2 = inputFields[0].value.trim();
+let numVal2 = Number(val2); // Convert to number once
+if (!val2 || isNaN(numVal2) || numVal2 < 160 || numVal2 > 800 || !Number.isInteger(numVal2)) {
+  inputFields[0].classList.add('error');
+  errorFields[0].textContent = 'Enter a whole number between 160 and 800';
+  errorFields[0].classList.add('active');
+  if (!firstErrorInput) firstErrorInput = inputFields[0];
+  valid = false;
+} else {
   inputFields[0].classList.remove('error');
   errorFields[0].textContent = '';
   errorFields[0].classList.remove('active');
-
-  // 2. Line Rate (160-800, integer)
-  let val2 = inputFields[1].value.trim();
-  if (!val2 || isNaN(val2) || !Number.isInteger(Number(val2)) || Number(val2) < 160 || Number(val2) > 800) {
-    inputFields[1].classList.add('error');
-    errorFields[1].textContent = 'Enter a whole number between 160 and 800';
-    errorFields[1].classList.add('active');
-    if (!firstErrorInput) firstErrorInput = inputFields[1];
-    valid = false;
-  } else {
-    inputFields[1].classList.remove('error');
-    errorFields[1].textContent = '';
-    errorFields[1].classList.remove('active');
-  }
+}
 
   // 3. Number of Lanes (1-12, integer)
-  let val3 = inputFields[2].value.trim();
-  if (!val3 || isNaN(val3) || !Number.isInteger(Number(val3)) || Number(val3) < 1 || Number(val3) > 12) {
-    inputFields[2].classList.add('error');
-    errorFields[2].textContent = 'Enter a whole number between 1 and 12';
-    errorFields[2].classList.add('active');
-    if (!firstErrorInput) firstErrorInput = inputFields[2];
-    valid = false;
-  } else {
-    inputFields[2].classList.remove('error');
-    errorFields[2].textContent = '';
-    errorFields[2].classList.remove('active');
-  }
+let val3 = inputFields[1].value.trim();
+let numVal3 = Number(val3); // Convert to number once
+if (!val3 || isNaN(numVal3) || numVal3 < 1 || numVal3 > 12 || !Number.isInteger(numVal3)) {
+  inputFields[1].classList.add('error');
+  errorFields[1].textContent = 'Enter a whole number between 1 and 12';
+  errorFields[1].classList.add('active');
+  if (!firstErrorInput) firstErrorInput = inputFields[2];
+  valid = false;
+} else {
+  inputFields[1].classList.remove('error');
+  errorFields[1].textContent = '';
+  errorFields[1].classList.remove('active');
+}
 
   // 4. Number of Gear (fixed at 8, always valid)
+  inputFields[2].classList.remove('error');
+  errorFields[2].textContent = '';
+  errorFields[2].classList.remove('active');
+
+  
+
+  // 6. Data Type (dropdown, always valid)
   inputFields[3].classList.remove('error');
   errorFields[3].textContent = '';
   errorFields[3].classList.remove('active');
 
-  // 5. Clock Mode (dropdown, always valid)
-  inputFields[4].classList.remove('error');
-  errorFields[4].textContent = '';
-  errorFields[4].classList.remove('active');
-
-  // 6. Data Type (dropdown, always valid)
-  inputFields[5].classList.remove('error');
-  errorFields[5].textContent = '';
-  errorFields[5].classList.remove('active');
-
   // 7. Pixel per Clock (1-10, integer)
-  let val7 = inputFields[6].value.trim();
+  let val7 = inputFields[4].value.trim();
   if (!val7 || isNaN(val7) || !Number.isInteger(Number(val7)) || Number(val7) < 1 || Number(val7) > 10) {
-    inputFields[6].classList.add('error');
-    errorFields[6].textContent = 'Enter a whole number between 1 and 10';
-    errorFields[6].classList.add('active');
+    inputFields[4].classList.add('error');
+    errorFields[4].textContent = 'Enter a whole number between 1 and 10';
+    errorFields[4].classList.add('active');
     if (!firstErrorInput) firstErrorInput = inputFields[6];
     valid = false;
   } else {
-    inputFields[6].classList.remove('error');
-    errorFields[6].textContent = '';
-    errorFields[6].classList.remove('active');
+    inputFields[4].classList.remove('error');
+    errorFields[4].textContent = '';
+    errorFields[4].classList.remove('active');
   }
 
-  // 8. Reference Clock Frequency (must be integer and not empty)
-  let val8 = inputFields[7].value.trim();
-  if (!val8 || isNaN(val8) || !Number.isInteger(Number(val8)) || Number(val8) < 1) {
-    inputFields[7].classList.add('error');
-    errorFields[7].textContent = 'Enter a whole number';
-    errorFields[7].classList.add('active');
-    if (!firstErrorInput) firstErrorInput = inputFields[7];
-    valid = false;
-  } else {
-    inputFields[7].classList.remove('error');
-    errorFields[7].textContent = '';
-    errorFields[7].classList.remove('active');
-  }
+
 
   // Scroll to first error field and highlight
   if (firstErrorInput) {
@@ -183,11 +162,11 @@ calculateBtn.onclick = () => {
   }
 
   // get values
-  const lineRate = Number(inputFields[1].value);
-  const numLanes = Number(inputFields[2].value);
-  const numGear = Number(inputFields[3].value);
-  const datatype = inputFields[5].value;
-  const pixelPerClock = Number(inputFields[6].value);
+  const lineRate = Number(inputFields[0].value);
+  const numLanes = Number(inputFields[1].value);
+  const numGear = Number(inputFields[2].value);
+  const datatype = inputFields[3].value;
+  const pixelPerClock = Number(inputFields[4].value);
 
   // Output 1: Number of Bits/Clock
   const bitsPerClock = getBitsPerClock(datatype, pixelPerClock);
@@ -218,7 +197,7 @@ clearBtn.onclick = () => {
   inputFields.forEach((input, idx) => {
     if (input.tagName === 'SELECT') {
       input.selectedIndex = 0;
-    } else if (input.id === 'input4') {
+    } else if (input.id === 'input3') {
       input.value = 8;
     } else {
       input.value = '';
@@ -242,7 +221,7 @@ clearBtn.onclick = () => {
 // Live validation for each input field. Adjust/add logic for new fields here.
 inputFields.forEach((input, idx) => {
   input.addEventListener('input', () => {
-    if (input.tagName === 'SELECT' || input.id === 'input4') {
+    if (input.tagName === 'SELECT' || input.id === 'input3') {
       input.classList.remove('error');
       errorFields[idx].textContent = '';
       errorFields[idx].classList.remove('active');
@@ -250,15 +229,13 @@ inputFields.forEach((input, idx) => {
     }
     let val = input.value.trim();
     let valid = true;
-    if (input.id === 'input2') {
+    if (input.id === 'input1') {
       valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= 160 && Number(val) <= 800;
     } else if (input.id === 'input3') {
       valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= 1 && Number(val) <= 12;
     } else if (input.id === 'input7') {
       valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= 1 && Number(val) <= 10;
-    } else if (input.id === 'input8') {
-      valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= 1;
-    }
+    } 
     if (valid) {
       input.classList.remove('error');
       errorFields[idx].textContent = '';
