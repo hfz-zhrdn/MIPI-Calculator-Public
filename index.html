@@ -149,20 +149,13 @@
           <div class="fields-section">
             <!-- Left column: main input fields -->
             <div class="fields-col">
-              <!-- 1. RD Mode dropdown -->
+              
+              <!-- 1. Line Rate (Mbps) -->
               <div class="field-group">
-                <label for="input1">RD Mode</label>
-                <select id="input1">
-                  <option value="HW_DEBUG">HW_DEBUG</option>
-                </select>
-                <div class="error-message" id="error1"></div>
-              </div>
-              <!-- 2. Line Rate (Mbps) -->
-              <div class="field-group">
-                <label for="input2">Line Rate (Mbps)</label>
+                <label for="input1">Line Rate (Mbps)</label>
                 <input
                   type="number"
-                  id="input2"
+                  id="input1"
                   min="160"
                   max="800"
                   step="1"
@@ -170,14 +163,14 @@
                   placeholder="160-800"
                   value="160"
                 />
-                <div class="error-message" id="error2"></div>
+                <div class="error-message" id="error1"></div>
               </div>
-              <!-- 3. Number of Lanes -->
+              <!-- 2. Number of Lanes -->
               <div class="field-group">
-                <label for="input3">Number of Lanes</label>
+                <label for="input2">Number of Lanes</label>
                 <input
                   type="number"
-                  id="input3"
+                  id="input2"
                   min="1"
                   max="12"
                   step="1"
@@ -185,13 +178,13 @@
                   autocomplete="off"
                   value="1"
                 />
-                <div class="error-message" id="error3"></div>
+                <div class="error-message" id="error2"></div>
               </div>
-              <!-- 4. Number of Gear (fixed at 8) -->
+              <!-- 3. Number of Gear (fixed at 8) -->
               <div class="field-group">
-                <label for="input4">Number of Gear (fixed at 8)</label>
-                <input type="number" id="input4" value="8" readonly />
-                <div class="error-message" id="error4"></div>
+                <label for="input3">Number of Gear (fixed at 8)</label>
+                <input type="number" id="input3" value="8" readonly />
+                <div class="error-message" id="error3"></div>
               </div>
               <!-- Buttons directly under Number of Gear (desktop) -->
               <div class="button-row">
@@ -201,19 +194,11 @@
             </div>
             <!-- Right column: additional input fields -->
             <div class="fields-col">
-              <!-- 5. Clock Mode dropdown -->
+              
+              <!-- 5. Data Type dropdown -->
               <div class="field-group">
-                <label for="input5">Clock Mode</label>
-                <select id="input5">
-                  <option value="Continuous" selected>Continuous</option>
-                  <option value="Non-Continuous">Non-Continuous</option>
-                </select>
-                <div class="error-message" id="error5"></div>
-              </div>
-              <!-- 6. Data Type dropdown -->
-              <div class="field-group">
-                <label for="input6">Data Type</label>
-                <select id="input6">
+                <label for="input4">Data Type</label>
+                <select id="input4">
                   <option value="RAW8" selected>RAW8</option>
                   <option value="RAW10">RAW10</option>
                   <option value="RAW12">RAW12</option>
@@ -225,14 +210,14 @@
                   <option value="YUV_422_10">YUV_422_10</option>
                   <option value="RGB888">RGB888</option>
                 </select>
-                <div class="error-message" id="error6"></div>
+                <div class="error-message" id="error4"></div>
               </div>
-              <!-- 7. Pixel per Clock -->
+              <!-- 6. Pixel per Clock -->
               <div class="field-group">
-                <label for="input7">Pixel per Clock</label>
+                <label for="input5">Pixel per Clock</label>
                 <input
                   type="number"
-                  id="input7"
+                  id="input5"
                   min="1"
                   max="10"
                   step="1"
@@ -240,23 +225,10 @@
                   autocomplete="off"
                   value="1"
                 />
-                <div class="error-message" id="error7"></div>
+                <div class="error-message" id="error5"></div>
               </div>
-              <!-- 8. Reference Clock Frequency (MHz) -->
-              <div class="field-group">
-                <label for="input8">Ref. Clock Frequency (MHz)</label>
-                <input
-                  type="number"
-                  id="input8"
-                  min="1"
-                  step="1"
-                  autocomplete="off"
-                  placeholder="Insert number here"
-                  value="25"
-                />
-                <div class="error-message" id="error8"></div>
-              </div>
-              <!-- Buttons under Ref Clock Frequency (mobile/vertical) -->
+             
+              <!-- Buttons to calculate (mobile/vertical) -->
               <div class="button-row">
                 <button id="calculate-btn-mobile" class="action-btn">
                   Calculate
