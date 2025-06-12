@@ -1,3 +1,4 @@
+//Currently unused from deprioritizing
 // Theme toggle logic
 const themeToggle = document.getElementById('theme-toggle');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
