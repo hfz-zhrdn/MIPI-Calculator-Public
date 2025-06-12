@@ -53,13 +53,13 @@
           <nav class="top-nav">
             <a href="index.html" class="nav-link active">User Configuration</a>
             <a href="dphy.html" class="nav-link">DPHY Parameter</a>
-            <a href="page2.html" class="nav-link">Bandwidth Calculator</a>
           </nav>
         </div>
       </div>
     </header>
-    <!-- Device selector below banner -->
+    <!-- Device/package/speed dropdowns container (now includes mode selector) -->
     <div
+      id="dropdowns-container"
       style="
         width: 100%;
         display: flex;
@@ -68,250 +68,468 @@
         margin-bottom: 1.2rem;
       "
     >
-      <div style="display: flex; align-items: center; gap: 0.7rem">
-        <label for="device-select" style="font-weight: bold; font-size: 1em">
-          Device:
-        </label>
-        <select
-          id="device-select"
-          style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
-        >
-          <option value="CrossLink-NX">CrossLink-NX</option>
-          <option value="Avant">Avant</option>
-        </select>
-      </div>
-    </div>
-    <div
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 1.2rem;
-        margin-bottom: 1.2rem;
-      "
-    >
-      <div style="display: flex; align-items: center; gap: 0.7rem">
-        <label for="device-select" style="font-weight: bold; font-size: 1em">
-          Package:
-        </label>
-        <select
-          id="device-select"
-          style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
-        >
-          <option value="WLCSP84">WLCSP84</option>
-          <option value="FCCSP104">FCCSP104</option>
-          <option value="QFN72">QFN72/WLCSP72</option>
-        </select>
-      </div>
-    </div>
-    <div
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 1.2rem;
-        margin-bottom: 1.2rem;
-      "
-    >
-      <div style="display: flex; align-items: center; gap: 0.7rem">
-        <label for="device-select" style="font-weight: bold; font-size: 1em">
-          Speed:
-        </label>
-        <select
-          id="device-select"
-          style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
-        >
-          <option value="speed_7">7</option>
-          <option value="speed_8">8</option>
-          <option value="speed_9">9</option>
-        </select>
-      </div>
-    </div>
-    <div class="main-content-row">
       <div
-        class="description-box"
-        style="margin-left: 5rem; margin-top: 3.2rem"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+          min-width: 340px;
+        "
       >
-        <div class="desc-title">User Configuration</div>
-        <div class="desc-text" style="font-weight: normal">
-          This page allows you to calculate the bandwidth and clock frequencies
-          <br />
-          for the Lattice devices based on the input parameters.<br />
-          <br />
-          <strong>Instructions:</strong><br />
-          1. Select your device from the Device dropdown above.<br />
-          2. Enter the respective parameters in the input fields.<br />
-          3. Clicking "Calculate" will display the required values for ***<br />
+        <div
+          id="mode-row"
+          style="display: flex; align-items: center; gap: 0.7rem; width: 100%"
+        >
+          <label
+            for="mode-select"
+            style="font-weight: bold; font-size: 1em; min-width: 90px"
+            >Mode:</label
+          >
+          <select
+            id="mode-select"
+            style="
+              font-size: 1em;
+              padding: 0.3rem 1.2rem;
+              border-radius: 0.4rem;
+            "
+          >
+            <option value="user-config" selected>User Configuration</option>
+            <option value="pxb">Pixel-Byte Frequency Calculator</option>
+          </select>
+        </div>
+        <div
+          id="device-row"
+          style="display: flex; align-items: center; gap: 0.7rem; width: 100%"
+        >
+          <label
+            for="device-select"
+            style="font-weight: bold; font-size: 1em; min-width: 90px"
+            >Device:</label
+          >
+          <select
+            id="device-select"
+            style="
+              font-size: 1em;
+              padding: 0.3rem 1.2rem;
+              border-radius: 0.4rem;
+            "
+          >
+            <option value="CrossLink-NX">CrossLink-NX</option>
+            <option value="Avant">Avant</option>
+          </select>
+        </div>
+        <div
+          id="package-row"
+          style="display: flex; align-items: center; gap: 0.7rem; width: 100%"
+        >
+          <label
+            for="package-select"
+            style="font-weight: bold; font-size: 1em; min-width: 90px"
+            >Package:</label
+          >
+          <select
+            id="package-select"
+            style="
+              font-size: 1em;
+              padding: 0.3rem 1.2rem;
+              border-radius: 0.4rem;
+            "
+          >
+            <option value="WLCSP84">WLCSP84</option>
+            <option value="FCCSP104">FCCSP104</option>
+            <option value="QFN72">QFN72/WLCSP72</option>
+          </select>
+        </div>
+        <div
+          id="speed-row"
+          style="display: flex; align-items: center; gap: 0.7rem; width: 100%"
+        >
+          <label
+            for="speed-select"
+            style="font-weight: bold; font-size: 1em; min-width: 90px"
+            >Speed:</label
+          >
+          <select
+            id="speed-select"
+            style="
+              font-size: 1em;
+              padding: 0.3rem 1.2rem;
+              border-radius: 0.4rem;
+            "
+          >
+            <option value="speed_7">7</option>
+            <option value="speed_8">8</option>
+            <option value="speed_9">9</option>
+          </select>
         </div>
       </div>
-      <div class="container center-fields">
-        <div class="input-fields-wrapper">
-          <div class="fields-section">
-            <!-- Left column: main input fields -->
-            <div class="fields-col">
-              
-              <!-- 1. Line Rate (Mbps) -->
-              <div class="field-group">
-                <label for="input1">Line Rate (Mbps)</label>
-                <input
-                  type="number"
-                  id="input1"
-                  min="160"
-                  max="800"
-                  step="1"
-                  autocomplete="off"
-                  placeholder="160-800"
-                  value="160"
-                />
-                <div class="error-message" id="error1"></div>
+    </div>
+    <div id="user-config-section">
+      <div class="main-content-row">
+        <div
+          class="description-box"
+          style="margin-left: 5rem; margin-top: 3.2rem"
+        >
+          <div class="desc-title">User Configuration</div>
+          <div class="desc-text" style="font-weight: normal">
+            This page allows you to calculate the bandwidth and clock
+            frequencies
+            <br />
+            for the Lattice devices based on the input parameters.<br />
+            <br />
+            <strong>Instructions:</strong><br />
+            1. Select your device from the Device dropdown above.<br />
+            2. Enter the respective parameters in the input fields.<br />
+            3. Clicking "Calculate" will display the required values for ***<br />
+          </div>
+        </div>
+        <div class="container center-fields">
+          <div class="input-fields-wrapper">
+            <div class="fields-section">
+              <!-- Left column: main input fields -->
+              <div class="fields-col">
+                <!-- 1. Line Rate (Mbps) -->
+                <div class="field-group">
+                  <label for="input1">Line Rate (Mbps)</label>
+                  <input
+                    type="number"
+                    id="input1"
+                    min="160"
+                    max="800"
+                    step="1"
+                    autocomplete="off"
+                    placeholder="160-800"
+                    value="160"
+                  />
+                  <div class="error-message" id="error1"></div>
+                </div>
+                <!-- 2. Number of Lanes -->
+                <div class="field-group">
+                  <label for="input2">Number of Lanes</label>
+                  <input
+                    type="number"
+                    id="input2"
+                    min="1"
+                    max="12"
+                    step="1"
+                    placeholder="1-12"
+                    autocomplete="off"
+                    value="1"
+                  />
+                  <div class="error-message" id="error2"></div>
+                </div>
+                <!-- 3. Number of Gear (fixed at 8) -->
+                <div class="field-group">
+                  <label for="input3">Number of Gear (fixed at 8)</label>
+                  <input type="number" id="input3" value="8" readonly />
+                  <div class="error-message" id="error3"></div>
+                </div>
+                <!-- Buttons directly under Number of Gear (desktop) -->
+                <div class="button-row">
+                  <button id="calculate-btn" class="action-btn">
+                    Calculate
+                  </button>
+                  <button id="clear-btn" class="action-btn">Clear</button>
+                </div>
               </div>
-              <!-- 2. Number of Lanes -->
-              <div class="field-group">
-                <label for="input2">Number of Lanes</label>
-                <input
-                  type="number"
-                  id="input2"
-                  min="1"
-                  max="12"
-                  step="1"
-                  placeholder="1-12"
-                  autocomplete="off"
-                  value="1"
-                />
-                <div class="error-message" id="error2"></div>
-              </div>
-              <!-- 3. Number of Gear (fixed at 8) -->
-              <div class="field-group">
-                <label for="input3">Number of Gear (fixed at 8)</label>
-                <input type="number" id="input3" value="8" readonly />
-                <div class="error-message" id="error3"></div>
-              </div>
-              <!-- Buttons directly under Number of Gear (desktop) -->
-              <div class="button-row">
-                <button id="calculate-btn" class="action-btn">Calculate</button>
-                <button id="clear-btn" class="action-btn">Clear</button>
+              <!-- Right column: additional input fields -->
+              <div class="fields-col">
+                <!-- 5. Data Type dropdown -->
+                <div class="field-group">
+                  <label for="input4">Data Type</label>
+                  <select id="input4">
+                    <option value="RAW8" selected>RAW8</option>
+                    <option value="RAW10">RAW10</option>
+                    <option value="RAW12">RAW12</option>
+                    <option value="RAW14">RAW14</option>
+                    <option value="RAW16">RAW16</option>
+                    <option value="YUV_420_8">YUV_420_8</option>
+                    <option value="YUV_420_10">YUV_420_10</option>
+                    <option value="YUV_422_8">YUV_422_8</option>
+                    <option value="YUV_422_10">YUV_422_10</option>
+                    <option value="RGB888">RGB888</option>
+                  </select>
+                  <div class="error-message" id="error4"></div>
+                </div>
+                <!-- 6. Pixel per Clock -->
+                <div class="field-group">
+                  <label for="input5">Pixel per Clock</label>
+                  <input
+                    type="number"
+                    id="input5"
+                    min="1"
+                    max="10"
+                    step="1"
+                    placeholder="1-10"
+                    autocomplete="off"
+                    value="1"
+                  />
+                  <div class="error-message" id="error5"></div>
+                </div>
+
+                <!-- Buttons to calculate (mobile/vertical) -->
+                <div class="button-row">
+                  <button id="calculate-btn-mobile" class="action-btn">
+                    Calculate
+                  </button>
+                  <button id="clear-btn-mobile" class="action-btn">
+                    Clear
+                  </button>
+                </div>
               </div>
             </div>
-            <!-- Right column: additional input fields -->
-            <div class="fields-col">
-              
-              <!-- 5. Data Type dropdown -->
-              <div class="field-group">
-                <label for="input4">Data Type</label>
-                <select id="input4">
-                  <option value="RAW8" selected>RAW8</option>
-                  <option value="RAW10">RAW10</option>
-                  <option value="RAW12">RAW12</option>
-                  <option value="RAW14">RAW14</option>
-                  <option value="RAW16">RAW16</option>
-                  <option value="YUV_420_8">YUV_420_8</option>
-                  <option value="YUV_420_10">YUV_420_10</option>
-                  <option value="YUV_422_8">YUV_422_8</option>
-                  <option value="YUV_422_10">YUV_422_10</option>
-                  <option value="RGB888">RGB888</option>
-                </select>
-                <div class="error-message" id="error4"></div>
+          </div>
+          <!-- Output section (hidden by default) -->
+          <div
+            class="outputs-section"
+            id="outputs-section"
+            style="display: none"
+          >
+            <div class="output-group">
+              <div class="output-label">Number of Bits/Clock</div>
+              <div class="output-value" id="output1"></div>
+            </div>
+            <div class="output-group">
+              <div class="output-label">D_PHY Clock (MHz)</div>
+              <div class="output-value" id="output2"></div>
+            </div>
+            <div class="output-group">
+              <div class="output-label">Pixel Clock Frequency (MHz)</div>
+              <div class="output-value" id="output3"></div>
+            </div>
+            <div class="output-group">
+              <div class="output-label">Byte Clock Frequency</div>
+              <div class="output-value" id="output4"></div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="description-box"
+          style="margin-right: 5rem; margin-top: 1.7rem"
+        >
+          <div class="desc-title">Supported Data Type Table</div>
+          <table class="table-border">
+            <tbody>
+              <tr style="font-weight: bold">
+                <td>CSI-2 Supported Data Type 8</td>
+                <td>Pixel Data Output Width</td>
+              </tr>
+              <tr>
+                <td>RAW8</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>RAW10</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>RAW12</td>
+                <td>12</td>
+              </tr>
+              <tr>
+                <td>RAW14</td>
+                <td>14</td>
+              </tr>
+              <tr>
+                <td>RAW16</td>
+                <td>16</td>
+              </tr>
+              <tr>
+                <td>YUV_420_8</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>YUV_420_10</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>YUV_422_8</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>YUV_422_10</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>RGB888</td>
+                <td>24</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="pxb-section" style="display: none">
+      <main>
+        <div
+          style="
+            display: flex;
+            gap: 0rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 0.1rem;
+            position: relative;
+            padding: 0 10rem;
+          "
+        >
+          <!-- Input to P2B Calculator -->
+          <div
+            class="bandwidth-card"
+            style="min-width: 320px; flex: 1 1 320px; max-width: 400px"
+          >
+            <div
+              style="
+                font-weight: bold;
+                font-size: 1.1em;
+                text-align: center;
+                margin-bottom: 1rem;
+              "
+            >
+              Input to P2B
+            </div>
+            <form id="bandwidth-form" autocomplete="off">
+              <div class="bandwidth-fields">
+                <div class="field-group">
+                  <label for="pixel-clock">Pixel Clock (MHz):</label>
+                  <input
+                    type="number"
+                    id="pixel-clock"
+                    min="0"
+                    step="any"
+                    placeholder="Insert number here"
+                  />
+                </div>
+                <div class="field-group">
+                  <label for="ppc">Pixel Per Clock (PPC):</label>
+                  <input
+                    type="number"
+                    id="ppc"
+                    min="1"
+                    step="1"
+                    placeholder="Insert number here"
+                  />
+                </div>
+                <div class="field-group">
+                  <label for="bpc">Bits Per Clock (BPC):</label>
+                  <input
+                    type="number"
+                    id="bpc"
+                    min="1"
+                    step="1"
+                    placeholder="Insert number here"
+                  />
+                </div>
               </div>
-              <!-- 6. Pixel per Clock -->
-              <div class="field-group">
-                <label for="input5">Pixel per Clock</label>
-                <input
-                  type="number"
-                  id="input5"
-                  min="1"
-                  max="10"
-                  step="1"
-                  placeholder="1-10"
-                  autocomplete="off"
-                  value="1"
-                />
-                <div class="error-message" id="error5"></div>
-              </div>
-             
-              <!-- Buttons to calculate (mobile/vertical) -->
-              <div class="button-row">
-                <button id="calculate-btn-mobile" class="action-btn">
+              <div class="bandwidth-buttons">
+                <button type="button" id="calc-p2b-btn" class="action-btn">
                   Calculate
                 </button>
-                <button id="clear-btn-mobile" class="action-btn">Clear</button>
+                <button type="reset" class="action-btn">Clear</button>
               </div>
+              <div class="bandwidth-output-group">
+                <label>Bandwidth (Mbps):</label>
+                <span id="bandwidth-output"></span>
+              </div>
+            </form>
+          </div>
+          <!-- Output to B2P Calculator -->
+          <div
+            class="bandwidth-card"
+            style="min-width: 320px; flex: 1 1 320px; max-width: 400px"
+          >
+            <div
+              style="
+                font-weight: bold;
+                font-size: 1.1em;
+                text-align: center;
+                margin-bottom: 1rem;
+              "
+            >
+              Output to B2P
+            </div>
+            <form id="b2p-form" autocomplete="off">
+              <div class="bandwidth-fields">
+                <div class="field-group">
+                  <label for="byte-clock">Byte Clock (MHz):</label>
+                  <input
+                    type="number"
+                    id="byte-clock"
+                    min="0"
+                    step="any"
+                    placeholder="Insert number here"
+                  />
+                </div>
+                <div class="field-group">
+                  <label for="num-lanes">Number of Lanes:</label>
+                  <input
+                    type="number"
+                    id="num-lanes"
+                    min="1"
+                    step="1"
+                    placeholder="Insert number here"
+                  />
+                </div>
+                <div class="field-group">
+                  <label for="gear">Gear (Fixed at 8):</label>
+                  <input
+                    type="number"
+                    id="gear"
+                    value="8"
+                    placeholder="Insert number here"
+                  />
+                </div>
+              </div>
+              <div class="bandwidth-buttons">
+                <button type="button" id="calc-b2p-btn" class="action-btn">
+                  Calculate
+                </button>
+                <button type="reset" class="action-btn">Clear</button>
+              </div>
+              <div class="bandwidth-output-group">
+                <label>Bandwidth (Mbps):</label>
+                <span id="b2p-bandwidth-output"></span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div style="display: flex; width: 100%; justify-content: center">
+          <div
+            class="description-box"
+            style="
+              top: 735px;
+              left: 500px;
+              width: 350px;
+              text-justify: distribute-all-lines;
+            "
+          >
+            <div class="desc-title">Pixel-Byte Frequency Calculator</div>
+            <div class="desc-text" style="font-weight: normal">
+              This page allows you to calculate the bandwidth for Lattice
+              devices based on the input parameters.
+            </div>
+          </div>
+          <div
+            class="description-box"
+            style="
+              top: 735px;
+              left: 900px;
+              width: 350px;
+              text-justify: distribute-all-lines;
+              margin-left: 3rem;
+            "
+          >
+            <div class="desc-title">Usage Instructions</div>
+            <div class="desc-text" style="font-weight: normal">
+              1. Enter parameters value into their respective fields.<br />
+              2. Click the "Calculate" button to compute the respective
+              bandwidth.<br />
+              3. The results will be displayed below the input fields.<br />
+              4. Use the "Clear" button to reset the form fields.
             </div>
           </div>
         </div>
-        <!-- Output section (hidden by default) -->
-        <div class="outputs-section" id="outputs-section" style="display: none">
-          <div class="output-group">
-            <div class="output-label">Number of Bits/Clock</div>
-            <div class="output-value" id="output1"></div>
-          </div>
-          <div class="output-group">
-            <div class="output-label">D_PHY Clock (MHz)</div>
-            <div class="output-value" id="output2"></div>
-          </div>
-          <div class="output-group">
-            <div class="output-label">Pixel Clock Frequency (MHz)</div>
-            <div class="output-value" id="output3"></div>
-          </div>
-          <div class="output-group">
-            <div class="output-label">Byte Clock Frequency</div>
-            <div class="output-value" id="output4"></div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="description-box"
-        style="margin-right: 5rem; margin-top: 1.7rem"
-      >
-        <div class="desc-title">Supported Data Type Table</div>
-        <table class="table-border">
-          <tbody>
-            <tr style="font-weight: bold">
-              <td>CSI-2 Supported Data Type 8</td>
-              <td>Pixel Data Output Width</td>
-            </tr>
-            <tr>
-              <td>RAW8</td>
-              <td>8</td>
-            </tr>
-            <tr>
-              <td>RAW10</td>
-              <td>10</td>
-            </tr>
-            <tr>
-              <td>RAW12</td>
-              <td>12</td>
-            </tr>
-            <tr>
-              <td>RAW14</td>
-              <td>14</td>
-            </tr>
-            <tr>
-              <td>RAW16</td>
-              <td>16</td>
-            </tr>
-            <tr>
-              <td>YUV_420_8</td>
-              <td>8</td>
-            </tr>
-            <tr>
-              <td>YUV_420_10</td>
-              <td>10</td>
-            </tr>
-            <tr>
-              <td>YUV_422_8</td>
-              <td>8</td>
-            </tr>
-            <tr>
-              <td>YUV_422_10</td>
-              <td>10</td>
-            </tr>
-            <tr>
-              <td>RGB888</td>
-              <td>24</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      </main>
     </div>
     <!-- Scroll to top button -->
     <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
@@ -336,8 +554,42 @@
     </button>
     <script src="app.js"></script>
     <script>
-      // Make mobile buttons work like desktop ones
+      // Mode selector logic
       document.addEventListener("DOMContentLoaded", function () {
+        const modeSelect = document.getElementById("mode-select");
+        const userConfigSection = document.getElementById(
+          "user-config-section"
+        );
+        const pxbSection = document.getElementById("pxb-section");
+        const dropdownsContainer = document.getElementById(
+          "dropdowns-container"
+        );
+        const modeRow = document.getElementById("mode-row");
+        const deviceRow = document.getElementById("device-row");
+        const packageRow = document.getElementById("package-row");
+        const speedRow = document.getElementById("speed-row");
+        if (modeSelect && userConfigSection && pxbSection) {
+          function updateMode() {
+            if (modeSelect.value === "pxb") {
+              userConfigSection.style.display = "none";
+              pxbSection.style.display = "block";
+              if (modeRow) modeRow.style.display = "flex";
+              if (deviceRow) deviceRow.style.display = "none";
+              if (packageRow) packageRow.style.display = "none";
+              if (speedRow) speedRow.style.display = "none";
+            } else {
+              userConfigSection.style.display = "block";
+              pxbSection.style.display = "none";
+              if (modeRow) modeRow.style.display = "flex";
+              if (deviceRow) deviceRow.style.display = "flex";
+              if (packageRow) packageRow.style.display = "flex";
+              if (speedRow) speedRow.style.display = "flex";
+            }
+          }
+          modeSelect.addEventListener("change", updateMode);
+          updateMode();
+        }
+        // Make mobile buttons work like desktop ones
         const calcBtn = document.getElementById("calculate-btn");
         const clearBtn = document.getElementById("clear-btn");
         const calcBtnMobile = document.getElementById("calculate-btn-mobile");
@@ -347,6 +599,67 @@
         }
         if (clearBtn && clearBtnMobile) {
           clearBtnMobile.addEventListener("click", () => clearBtn.click());
+        }
+        // Pixel-Byte Frequency Calculator logic
+        const calcP2BBtn = document.getElementById("calc-p2b-btn");
+        const bandwidthOutput = document.getElementById("bandwidth-output");
+        const bandwidthForm = document.getElementById("bandwidth-form");
+        if (calcP2BBtn && bandwidthOutput && bandwidthForm) {
+          calcP2BBtn.addEventListener("click", function () {
+            const pixelClock = parseFloat(
+              document.getElementById("pixel-clock").value
+            );
+            const ppc = parseFloat(document.getElementById("ppc").value);
+            const bpc = parseFloat(document.getElementById("bpc").value);
+            if (isNaN(pixelClock) || isNaN(ppc) || isNaN(bpc)) {
+              bandwidthOutput.textContent = "Please enter valid numbers.";
+              return;
+            }
+            const bandwidth = pixelClock * ppc * bpc;
+            bandwidthOutput.textContent = bandwidth.toLocaleString() + " Mbps";
+          });
+          bandwidthForm.addEventListener("reset", function () {
+            bandwidthOutput.textContent = "";
+          });
+        }
+        const byteClockInput = document.getElementById("byte-clock");
+        const numLanesInput = document.getElementById("num-lanes");
+        const gearInput = document.getElementById("gear");
+        const calcB2PBtn = document.getElementById("calc-b2p-btn");
+        const b2pBandwidthOutput = document.getElementById(
+          "b2p-bandwidth-output"
+        );
+        const b2pForm = document.getElementById("b2p-form");
+        if (
+          byteClockInput &&
+          numLanesInput &&
+          gearInput &&
+          calcB2PBtn &&
+          b2pBandwidthOutput &&
+          b2pForm
+        ) {
+          calcB2PBtn.addEventListener("click", function () {
+            const byteClock = parseFloat(byteClockInput.value);
+            const numLanes = parseFloat(numLanesInput.value);
+            const gear = parseFloat(gearInput.value);
+            if (
+              isNaN(byteClock) ||
+              byteClock < 0 ||
+              isNaN(numLanes) ||
+              numLanes < 1 ||
+              isNaN(gear) ||
+              gear < 1
+            ) {
+              b2pBandwidthOutput.textContent =
+                "Please enter valid values for all fields.";
+              return;
+            }
+            const bandwidth = byteClock * numLanes * gear;
+            b2pBandwidthOutput.textContent = bandwidth + " Mbps";
+          });
+          b2pForm.addEventListener("reset", function () {
+            b2pBandwidthOutput.textContent = "";
+          });
         }
       });
     </script>
