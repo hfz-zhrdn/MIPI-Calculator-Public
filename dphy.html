@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DPHY Timing Calculator</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      @media (max-width: 900px) {
+        .description-box.absolute-left {
+          display: none !important;
+        }
+        .main-content-padded {
+          padding-left: 0 !important;
+        }
+      }
+      .description-box.absolute-left {
+        position: absolute;
+        left: 0;
+        top: 8rem;
+        max-width: 340px;
+        margin: 0;
+        z-index: 1;
+      }
+      .main-content-padded {
+        padding-left: 370px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    </style>
   </head>
   <body>
     <header class="main-banner">
@@ -79,131 +102,168 @@
     </div>
     <main>
       <div
-        class="container center-fields"
-        style="max-width: 420px; margin: 2rem auto 1.5rem auto"
+        style="
+          position: relative;
+          width: auto;
+          min-height: 600px;
+          margin-left: 20px;
+        "
       >
-        <form id="dphy-form" autocomplete="off">
-          <div class="field-group">
-            <label for="dphy-clock">DPHY Clock Frequency (MHz):</label>
-            <input
-              type="number"
-              id="dphy-clock"
-              min="1"
-              step="any"
-              placeholder="Insert number here"
-              required
-            />
+        <div class="description-box absolute-left">
+          <div class="desc-title">DPHY Timing Calculator</div>
+          <div class="desc-text" style="font-weight: normal">
+            This page allows you to calculate DPHY timing parameters for Lattice
+            devices based on your input values.<br /><br />
+            <strong>Instructions:</strong><br />
+            1. Enter the required parameters in the input fields.<br />
+            2. Click the "Calculate" button to compute the DPHY timing
+            values.<br />
+            3. The results will be displayed in the table below.<br />
+            4. Use the "Clear" button to reset the form fields.
           </div>
-          <div class="button-row" style="margin-top: 1.2rem">
-            <button type="button" id="calc-dphy-btn" class="action-btn">
-              Calculate
-            </button>
-            <button type="reset" class="action-btn">Clear</button>
+        </div>
+        <div class="main-content-padded">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              width: 100%;
+              margin-left: -11rem;
+            "
+          >
+            <div
+              class="container center-fields"
+              style="max-width: 420px; position: relative; align-self: center"
+            >
+              <form id="dphy-form" autocomplete="off">
+                <div class="field-group">
+                  <label for="dphy-clock">DPHY Clock Frequency (MHz):</label>
+                  <input
+                    type="number"
+                    id="dphy-clock"
+                    min="1"
+                    step="any"
+                    placeholder="Insert number here"
+                    required
+                  />
+                </div>
+                <div class="button-row" style="margin-top: 1.2rem">
+                  <button type="button" id="calc-dphy-btn" class="action-btn">
+                    Calculate
+                  </button>
+                  <button type="reset" class="action-btn">Clear</button>
+                </div>
+              </form>
+            </div>
+            <div
+              class="description-box"
+              style="max-width: 900px; margin: 0 auto"
+            >
+              <div class="desc-title">DPHY Timing Outputs</div>
+              <table
+                class="table-border"
+                id="dphy-output-table"
+                style="width: 100%; margin-top: 1.2rem"
+              >
+                <thead>
+                  <tr style="font-weight: bold">
+                    <td>Parameter</td>
+                    <td>Min</td>
+                    <td>Max</td>
+                    <td>Choice</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>D_PHY Clock per (ns)</td>
+                    <td id="out-clock-per-min"></td>
+                    <td id="out-clock-per-max"></td>
+                    <td id="out-clock-per-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>Byte Clock Frequency (MHz)</td>
+                    <td id="out-byte-freq-min"></td>
+                    <td id="out-byte-freq-max"></td>
+                    <td id="out-byte-freq-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>Byte Clock per (ns)</td>
+                    <td id="out-byte-per-min"></td>
+                    <td id="out-byte-per-max"></td>
+                    <td id="out-byte-per-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_LPX</td>
+                    <td id="out-lpx-min"></td>
+                    <td id="out-lpx-max"></td>
+                    <td id="out-lpx-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_HS-PREPARE</td>
+                    <td id="out-hs-prepare-min"></td>
+                    <td id="out-hs-prepare-max"></td>
+                    <td id="out-hs-prepare-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>TX_TCLK_HSZERO</td>
+                    <td id="out-tclk-hszero-min"></td>
+                    <td id="out-tclk-hszero-max"></td>
+                    <td id="out-tclk-hszero-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_HS_TRAIL</td>
+                    <td id="out-hs-trail-min"></td>
+                    <td id="out-hs-trail-max"></td>
+                    <td id="out-hs-trail-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_HS_EXIT</td>
+                    <td id="out-hs-exit-min"></td>
+                    <td id="out-hs-exit-max"></td>
+                    <td id="out-hs-exit-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_CLK-Prepare</td>
+                    <td id="out-clk-prepare-min"></td>
+                    <td id="out-clk-prepare-max"></td>
+                    <td id="out-clk-prepare-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_CLK-ZERO</td>
+                    <td id="out-clk-zero-min"></td>
+                    <td id="out-clk-zero-max"></td>
+                    <td id="out-clk-zero-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_CLK-PRE</td>
+                    <td id="out-clk-pre-min"></td>
+                    <td id="out-clk-pre-max"></td>
+                    <td id="out-clk-pre-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_CLK-POST</td>
+                    <td id="out-clk-post-min"></td>
+                    <td id="out-clk-post-max"></td>
+                    <td id="out-clk-post-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_CLK-TRAIL</td>
+                    <td id="out-clk-trail-min"></td>
+                    <td id="out-clk-trail-max"></td>
+                    <td id="out-clk-trail-choice"></td>
+                  </tr>
+                  <tr>
+                    <td>t_CLK-EXIT</td>
+                    <td id="out-clk-exit-min"></td>
+                    <td id="out-clk-exit-max"></td>
+                    <td id="out-clk-exit-choice"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </form>
-      </div>
-      <div class="description-box" style="max-width: 900px; margin: 0 auto">
-        <div class="desc-title">DPHY Timing Outputs</div>
-        <table
-          class="table-border"
-          id="dphy-output-table"
-          style="width: 100%; margin-top: 1.2rem"
-        >
-          <thead>
-            <tr style="font-weight: bold">
-              <td>Parameter</td>
-              <td>Min</td>
-              <td>Max</td>
-              <td>Choice</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>D_PHY Clock per (ns)</td>
-              <td id="out-clock-per-min"></td>
-              <td id="out-clock-per-max"></td>
-              <td id="out-clock-per-choice"></td>
-            </tr>
-            <tr>
-              <td>Byte Clock Frequency (MHz)</td>
-              <td id="out-byte-freq-min"></td>
-              <td id="out-byte-freq-max"></td>
-              <td id="out-byte-freq-choice"></td>
-            </tr>
-            <tr>
-              <td>Byte Clock per (ns)</td>
-              <td id="out-byte-per-min"></td>
-              <td id="out-byte-per-max"></td>
-              <td id="out-byte-per-choice"></td>
-            </tr>
-            <tr>
-              <td>t_LPX</td>
-              <td id="out-lpx-min"></td>
-              <td id="out-lpx-max"></td>
-              <td id="out-lpx-choice"></td>
-            </tr>
-            <tr>
-              <td>t_HS-PREPARE</td>
-              <td id="out-hs-prepare-min"></td>
-              <td id="out-hs-prepare-max"></td>
-              <td id="out-hs-prepare-choice"></td>
-            </tr>
-            <tr>
-              <td>TX_TCLK_HSZERO</td>
-              <td id="out-tclk-hszero-min"></td>
-              <td id="out-tclk-hszero-max"></td>
-              <td id="out-tclk-hszero-choice"></td>
-            </tr>
-            <tr>
-              <td>t_HS_TRAIL</td>
-              <td id="out-hs-trail-min"></td>
-              <td id="out-hs-trail-max"></td>
-              <td id="out-hs-trail-choice"></td>
-            </tr>
-            <tr>
-              <td>t_HS_EXIT</td>
-              <td id="out-hs-exit-min"></td>
-              <td id="out-hs-exit-max"></td>
-              <td id="out-hs-exit-choice"></td>
-            </tr>
-            <tr>
-              <td>t_CLK-Prepare</td>
-              <td id="out-clk-prepare-min"></td>
-              <td id="out-clk-prepare-max"></td>
-              <td id="out-clk-prepare-choice"></td>
-            </tr>
-            <tr>
-              <td>t_CLK-ZERO</td>
-              <td id="out-clk-zero-min"></td>
-              <td id="out-clk-zero-max"></td>
-              <td id="out-clk-zero-choice"></td>
-            </tr>
-            <tr>
-              <td>t_CLK-PRE</td>
-              <td id="out-clk-pre-min"></td>
-              <td id="out-clk-pre-max"></td>
-              <td id="out-clk-pre-choice"></td>
-            </tr>
-            <tr>
-              <td>t_CLK-POST</td>
-              <td id="out-clk-post-min"></td>
-              <td id="out-clk-post-max"></td>
-              <td id="out-clk-post-choice"></td>
-            </tr>
-            <tr>
-              <td>t_CLK-TRAIL</td>
-              <td id="out-clk-trail-min"></td>
-              <td id="out-clk-trail-max"></td>
-              <td id="out-clk-trail-choice"></td>
-            </tr>
-            <tr>
-              <td>t_CLK-EXIT</td>
-              <td id="out-clk-exit-min"></td>
-              <td id="out-clk-exit-max"></td>
-              <td id="out-clk-exit-choice"></td>
-            </tr>
-          </tbody>
-        </table>
+        </div>
       </div>
     </main>
     <script src="dphy.js"></script>
