@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lattice User Configuration</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" href="imgs/logoLattice_edited.png" />
   </head>
   <body>
     <!-- Banner/Header -->
@@ -45,11 +46,13 @@
         </button>
         <!-- Logo and navigation side by side -->
         <div style="display: flex; align-items: center; gap: 2rem">
-          <img
-            src="lattice-logo.png"
-            alt="Lattice Semiconductor Logo"
-            class="banner-logo"
-          />
+          <a href="https://www.latticesemi.com/" target="_blank" rel="noopener">
+            <img
+              src="lattice-logo.png"
+              alt="Lattice Semiconductor Logo"
+              class="banner-logo"
+            />
+          </a>
           <nav class="top-nav">
             <a href="index.html" class="nav-link active">User Configuration</a>
             <a href="dphy.html" class="nav-link">DPHY Parameter</a>
@@ -167,19 +170,29 @@
     </div>
     <div id="user-config-section">
       <div class="main-content-row">
-        <div class="description-box" style="margin-left: 5rem; margin-top: 3.2rem">
+        <div
+          class="description-box"
+          style="margin-left: 5rem; margin-top: 3.2rem"
+        >
           <div class="desc-title">User Configuration</div>
           <div class="desc-text" style="font-weight: normal">
-            This page allows you to calculate the bandwidth and clock frequencies
-            <br />
-            for the Lattice devices based on the input parameters.<br />
+            This page allows you to calculate the bandwidth and clock
+            frequencies for the Lattice devices based on the input
+            parameters.<br />
             <br />
             <strong>Instructions:</strong><br />
             1. Select your device from the Device dropdown above.<br />
             2. Enter the respective parameters in the input fields.<br />
-            3. Clicking "Calculate" will display the required values for ***<br />
+            3. Pressing "Calculate" will display the values for Bits per Clock,
+            D_PHY Clock, Pixel Clock Frequency and Byte Clock Frequency.<br />
             <br />
-            <a href="https://www.latticesemi.com/view_document?document_id=52451" target="_blank" rel="noopener" style="color: #0074d9; text-decoration: underline;">Lattice Byte to Pixel User Guide</a>
+            <a
+              href="https://www.latticesemi.com/view_document?document_id=52451"
+              target="_blank"
+              rel="noopener"
+              style="color: #0074d9; text-decoration: underline"
+              >Lattice Byte to Pixel User Guide</a
+            >
           </div>
         </div>
         <div class="container center-fields">
@@ -503,9 +516,16 @@
           >
             <div class="desc-title">Pixel-Byte Frequency Calculator</div>
             <div class="desc-text" style="font-weight: normal">
-              This page allows you to calculate the bandwidth for Lattice devices based on the input parameters.<br />
+              This page allows you to calculate the bandwidth for Lattice
+              devices based on the input parameters.<br />
               <br />
-              <a href="https://www.latticesemi.com/view_document?document_id=52451" target="_blank" rel="noopener" style="color: #0074d9; text-decoration: underline;">Lattice Byte to Pixel User Guide</a>
+              <a
+                href="https://www.latticesemi.com/view_document?document_id=52451"
+                target="_blank"
+                rel="noopener"
+                style="color: #0074d9; text-decoration: underline"
+                >Lattice Byte to Pixel User Guide</a
+              >
             </div>
           </div>
           <div

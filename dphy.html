@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DPHY Timing Calculator</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" href="imgs/logoLattice_edited.png" />
     <style>
       @media (max-width: 900px) {
         .description-box.absolute-left {
@@ -63,11 +64,13 @@
           </span>
         </button>
         <div style="display: flex; align-items: center; gap: 2rem">
-          <img
-            src="lattice-logo.png"
-            alt="Lattice Semiconductor Logo"
-            class="banner-logo"
-          />
+          <a href="https://www.latticesemi.com/" target="_blank" rel="noopener">
+            <img
+              src="lattice-logo.png"
+              alt="Lattice Semiconductor Logo"
+              class="banner-logo"
+            />
+          </a>
           <nav class="top-nav">
             <a href="index.html" class="nav-link">User Configuration</a>
             <a href="dphy.html" class="nav-link active">DPHY Parameter</a>
@@ -94,9 +97,7 @@
           style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
         >
           <option value="CrossLink-NX">CrossLink-NX</option>
-          <option value="CrossLinkU-NX">CrossLinkU-NX</option>
           <option value="Avant">Avant</option>
-          <option value="Nexus">Nexus</option>
         </select>
       </div>
     </div>
