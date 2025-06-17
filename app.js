@@ -84,7 +84,7 @@ let val2 = inputFields[0].value.trim();
 let numVal2 = Number(val2); // Convert to number once
 if (!val2 || isNaN(numVal2) || numVal2 < 160 || numVal2 > 800 || !Number.isInteger(numVal2)) {
   inputFields[0].classList.add('error');
-  errorFields[0].textContent = 'Enter a whole number between 160 and 800';
+  errorFields[0].textContent = 'Enter a whole number according to hinted range';
   errorFields[0].classList.add('active');
   if (!firstErrorInput) firstErrorInput = inputFields[0];
   valid = false;
@@ -134,8 +134,6 @@ if (!val3 || isNaN(numVal3) || numVal3 < 1 || numVal3 > 12 || !Number.isInteger(
     errorFields[4].textContent = '';
     errorFields[4].classList.remove('active');
   }
-
-
 
   // Scroll to first error field and highlight
   if (firstErrorInput) {
