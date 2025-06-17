@@ -207,10 +207,10 @@
                     type="number"
                     id="input1"
                     min="160"
-                    max="800"
+                    max="861"
                     step="1"
                     autocomplete="off"
-                    placeholder="160-800"
+                    placeholder="160-861"
                     value="160"
                   />
                   <div class="error-message" id="error1"></div>
@@ -679,6 +679,39 @@
           b2pForm.addEventListener("reset", function () {
             b2pBandwidthOutput.textContent = "";
           });
+        }
+        // Enforce line rate bounds for CrossLink-NX, WLCSP84, speed 7
+        const deviceSelect = document.getElementById("device-select");
+        const packageSelect = document.getElementById("package-select");
+        const speedSelect = document.getElementById("speed-select");
+        const lineRateInput = document.getElementById("input1");
+        function enforceLineRateBounds() {
+          if (
+            deviceSelect &&
+            packageSelect &&
+            speedSelect &&
+            lineRateInput &&
+            deviceSelect.value === "CrossLink-NX" &&
+            packageSelect.value === "WLCSP84" &&
+            speedSelect.value === "speed_7"
+          ) {
+            let val = parseInt(lineRateInput.value, 10);
+            if (!isNaN(val)) {
+              if (val > 861) lineRateInput.value = 861;
+              if (val < 160) lineRateInput.value = 160;
+            }
+          }
+        }
+        if (lineRateInput) {
+          // On blur (when user clicks away from the field)
+          lineRateInput.addEventListener("blur", enforceLineRateBounds);
+          // Also enforce on dropdown changes
+          if (deviceSelect)
+            deviceSelect.addEventListener("change", enforceLineRateBounds);
+          if (packageSelect)
+            packageSelect.addEventListener("change", enforceLineRateBounds);
+          if (speedSelect)
+            speedSelect.addEventListener("change", enforceLineRateBounds);
         }
       });
     </script>
