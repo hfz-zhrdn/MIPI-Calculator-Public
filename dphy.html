@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DPHY Timing Calculator</title>
+    <title>D-PHY Timing Calculator</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" type="image/png" href="imgs/logoLattice_edited.png" />
     <style>
@@ -73,7 +73,7 @@
           </a>
           <nav class="top-nav">
             <a href="index.html" class="nav-link">MIPI Configuration</a>
-            <a href="dphy.html" class="nav-link active">DPHY Parameter</a>
+            <a href="dphy.html" class="nav-link active">D-PHY Parameter</a>
           </nav>
         </div>
       </div>
@@ -111,7 +111,7 @@
         "
       >
         <div class="description-box absolute-left">
-          <div class="desc-title">DPHY Timing Calculator</div>
+          <div class="desc-title">D-PHY Timing Calculator</div>
           <div
             class="desc-text"
             style="font-weight: normal; width: 380px; text-align: left"
@@ -121,14 +121,22 @@
             parameters. This tool assists in calculating alternative D-PHY
             timing parameter values.<br /><br />
             <strong>Instructions:</strong><br />
-            To customize the TX D-PHY Protocol Timing Parameters, follow these
-            steps: <br />
-            1. Open the Module/IP Block Wizard for the TX D-PHY IP. <br />
-            2. Navigate to the Protocol Timing Parameter tab. <br />
-            3. Select the Customize TX Timing Parameter Values option. <br />
+            1. Insert desired D-PHY Clock Frequency and Bit Rate into their
+            fields. <br />
+            2. Press "Calculate" to show the values for TX timing parameters and
+            DX timing output.
+            <br />
+            3. Choose a value between Min and Max for each parameter for your
+            own design.<br /><br />
+            <strong>Customizing TX D-PHY Protocol Timing Parameters:</strong
+            ><br />
+            1. In Lattice Radiant, open the "Module/IP Block Wizard" for the TX
+            D-PHY IP. <br />
+            2. Navigate to the "Protocol Timing Parameter tab". <br />
+            3. Select the "Customize TX Timing Parameter Values" option. <br />
             4. Modify the parameters according to the values provided by this
             tool. <br />
-            5. Click the Generate button to save your changes.
+            5. Click the "Generate" button to save your changes.
           </div>
         </div>
         <div class="main-content-padded">
@@ -147,7 +155,7 @@
             >
               <form id="dphy-form" autocomplete="off">
                 <div class="field-group">
-                  <label for="dphy-clock">DPHY Clock Frequency (MHz):</label>
+                  <label for="dphy-clock">D-PHY Clock Frequency (MHz):</label>
                   <input
                     type="number"
                     id="dphy-clock"
