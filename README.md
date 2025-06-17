@@ -26,7 +26,7 @@ git init
 git remote add origin http://git.latticesemi.com/hafiz.zaharudin/HTML-Video-Bandwidth-Calculator
 git pull origin main
 ```
-*Right click index.html > Open with Live Server
+* Right click index.html > Open with Live Server
 
 ## Help
 
