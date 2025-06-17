@@ -24,6 +24,7 @@ themeToggle.onclick = () => {
 const dphyClockInput = document.getElementById('dphy-clock');
 const calcBtn = document.getElementById('calc-dphy-btn');
 const resetBtn = document.querySelector('#dphy-form button[type="reset"]');
+const bitRateInput = document.getElementById('bit-rate');
 
 const outClockPerMin = document.getElementById('out-clock-per-min');
 const outClockPerMax = document.getElementById('out-clock-per-max');
@@ -67,6 +68,11 @@ const outClkTrailChoice = document.getElementById('out-clk-trail-choice');
 const outClkExitMin = document.getElementById('out-clk-exit-min');
 const outClkExitMax = document.getElementById('out-clk-exit-max');
 const outClkExitChoice = document.getElementById('out-clk-exit-choice');
+const outUIps = document.getElementById('out-ui-ps');
+const outByteClockPeriod = document.getElementById('out-byte-clock-period');
+const outDataSettleMin = document.getElementById('out-data-settle-min');
+const outDataSettleMax = document.getElementById('out-data-settle-max');
+const outDataSettleChoice = document.getElementById('out-data-settle-choice');
 
 function ceilMath(val) { return Math.ceil(val); }
 function floorMath(val) { return Math.floor(val); }
@@ -86,11 +92,39 @@ function clearDPHYTable() {
     outClkPreMin, outClkPreMax, outClkPreChoice,
     outClkPostMin, outClkPostMax, outClkPostChoice,
     outClkTrailMin, outClkTrailMax, outClkTrailChoice,
-    outClkExitMin, outClkExitMax, outClkExitChoice
+    outClkExitMin, outClkExitMax, outClkExitChoice,
+    outUIps, outByteClockPeriod, outDataSettleMin, outDataSettleMax, outDataSettleChoice
   ].forEach(cell => cell.textContent = '');
 }
 
 function calcDPHY() {
+  const bitRate = parseFloat(bitRateInput.value);
+  if (isNaN(bitRate) || bitRate < 160 || bitRate > 800) {
+    clearDPHYTable();
+    return;
+  }
+  // UI (ps) and Byte Clock Period
+  const uiPs = 1000000 / bitRate; // UI (ps)
+  const byteClockPeriod = 8000000 / bitRate; // Byte Clock Period
+  if (outUIps) outUIps.textContent = uiPs.toFixed(3);
+  if (outByteClockPeriod) outByteClockPeriod.textContent = byteClockPeriod.toFixed(3);
+
+  // Data_Settle calculations
+  // min = FLOOR.MATH((85000 + 10 * UI(ps)) / Byte Clock Period - 3)
+  // max = FLOOR.MATH((145000 + 10 * UI(ps)) / Byte Clock Period - 4)
+  // choice = if min < 0 then 0 else FLOOR.MATH((min + max) / 2)
+  const min = Math.floor((85000 + 10 * uiPs) / byteClockPeriod - 3);
+  const max = Math.floor((145000 + 10 * uiPs) / byteClockPeriod - 4);
+  let choice;
+  if (min < 0) {
+    choice = 0;
+  } else {
+    choice = Math.floor((min + max) / 2);
+  }
+  if (outDataSettleMin) outDataSettleMin.textContent = min;
+  if (outDataSettleMax) outDataSettleMax.textContent = max;
+  if (outDataSettleChoice) outDataSettleChoice.textContent = choice.toFixed(2);
+
   const B1 = parseFloat(dphyClockInput.value);
   if (isNaN(B1) || B1 <= 0) {
     clearDPHYTable();

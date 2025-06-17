@@ -949,3 +949,8 @@ body.light #b2p-bandwidth-output{
 #dphy-output-table th {
   width: 150px;
 }
+
+#dphy-rx-output-table td,
+#dphy-rx-output-table th {
+  width: 150px;
+}

@@ -77,37 +77,38 @@ function validateFields() {
   let valid = true;
   let firstErrorInput = null;
 
-  
-
-// 2. Line Rate (160-800, integer)
-let val2 = inputFields[0].value.trim();
-let numVal2 = Number(val2); // Convert to number once
-if (!val2 || isNaN(numVal2) || numVal2 < 160 || numVal2 > 800 || !Number.isInteger(numVal2)) {
-  inputFields[0].classList.add('error');
-  errorFields[0].textContent = 'Enter a whole number between 160 and 800';
-  errorFields[0].classList.add('active');
-  if (!firstErrorInput) firstErrorInput = inputFields[0];
-  valid = false;
-} else {
-  inputFields[0].classList.remove('error');
-  errorFields[0].textContent = '';
-  errorFields[0].classList.remove('active');
-}
+  // 2. Line Rate (dynamic min/max, integer)
+  let val2 = inputFields[0].value.trim();
+  let numVal2 = Number(val2); // Convert to number once
+  // Get dynamic min/max from input attributes
+  let min2 = Number(inputFields[0].min) || 160;
+  let max2 = Number(inputFields[0].max) || 861;
+  if (!val2 || isNaN(numVal2) || numVal2 < min2 || numVal2 > max2 || !Number.isInteger(numVal2)) {
+    inputFields[0].classList.add('error');
+    errorFields[0].textContent = `Enter a whole number according to hinted range (${min2}-${max2})`;
+    errorFields[0].classList.add('active');
+    if (!firstErrorInput) firstErrorInput = inputFields[0];
+    valid = false;
+  } else {
+    inputFields[0].classList.remove('error');
+    errorFields[0].textContent = '';
+    errorFields[0].classList.remove('active');
+  }
 
   // 3. Number of Lanes (1-12, integer)
-let val3 = inputFields[1].value.trim();
-let numVal3 = Number(val3); // Convert to number once
-if (!val3 || isNaN(numVal3) || numVal3 < 1 || numVal3 > 12 || !Number.isInteger(numVal3)) {
-  inputFields[1].classList.add('error');
-  errorFields[1].textContent = 'Enter a whole number between 1 and 12';
-  errorFields[1].classList.add('active');
-  if (!firstErrorInput) firstErrorInput = inputFields[2];
-  valid = false;
-} else {
-  inputFields[1].classList.remove('error');
-  errorFields[1].textContent = '';
-  errorFields[1].classList.remove('active');
-}
+  let val3 = inputFields[1].value.trim();
+  let numVal3 = Number(val3); // Convert to number once
+  if (!val3 || isNaN(numVal3) || numVal3 < 1 || numVal3 > 12 || !Number.isInteger(numVal3)) {
+    inputFields[1].classList.add('error');
+    errorFields[1].textContent = 'Enter a whole number between 1 and 12';
+    errorFields[1].classList.add('active');
+    if (!firstErrorInput) firstErrorInput = inputFields[2];
+    valid = false;
+  } else {
+    inputFields[1].classList.remove('error');
+    errorFields[1].textContent = '';
+    errorFields[1].classList.remove('active');
+  }
 
   // 4. Number of Gear (fixed at 8, always valid)
   inputFields[2].classList.remove('error');
@@ -134,8 +135,6 @@ if (!val3 || isNaN(numVal3) || numVal3 < 1 || numVal3 > 12 || !Number.isInteger(
     errorFields[4].textContent = '';
     errorFields[4].classList.remove('active');
   }
-
-
 
   // Scroll to first error field and highlight
   if (firstErrorInput) {
@@ -230,12 +229,15 @@ inputFields.forEach((input, idx) => {
     let val = input.value.trim();
     let valid = true;
     if (input.id === 'input1') {
-      valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= 160 && Number(val) <= 800;
-    } else if (input.id === 'input3') {
+      // Use dynamic min/max for validation
+      let min = Number(input.min) || 160;
+      let max = Number(input.max) || 861;
+      valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= min && Number(val) <= max;
+    } else if (input.id === 'input2') {
       valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= 1 && Number(val) <= 12;
-    } else if (input.id === 'input7') {
+    } else if (input.id === 'input5') {
       valid = val && !isNaN(val) && Number.isInteger(Number(val)) && Number(val) >= 1 && Number(val) <= 10;
-    } 
+    }
     if (valid) {
       input.classList.remove('error');
       errorFields[idx].textContent = '';
