@@ -263,7 +263,7 @@ body.dark .theme-toggle .icon-moon {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 500px;
+  min-height: 250px;
   position: relative;
 }
 
