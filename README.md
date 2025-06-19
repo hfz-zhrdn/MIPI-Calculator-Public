@@ -24,11 +24,14 @@ Guide on how to install the listed requirements will be included below this sect
 
 ![Search "Command Prompt" in the search bar.](/imgs/readme/git1.png "Should be first result in search")
 
-2. Run the command `winget install git.git.` 
 
+
+2. Run the command `winget install git.git.` 
 ![Running the command winget git.git in Command Prompt.](/imgs/readme/git2.png "Make sure it's git.git")
 
+
 3. Let it run until installation is complete.
+
 
 ### Microsoft Visual Studio Code
 
