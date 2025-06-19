@@ -24,17 +24,11 @@ Guide on how to install the listed requirements will be included below this sect
 
 ![Search "Command Prompt" in the search bar.](/imgs/readme/git1.png "Should be first result in search")
 
-
-
 2. Run the command `winget install git.git.` 
 
 ![Running the command winget git.git in Command Prompt.](/imgs/readme/git2.png "Make sure it's git.git")
 
-
-
 3. Let it run until installation is complete.
-
-
 
 ### Microsoft Visual Studio Code
 
@@ -42,13 +36,9 @@ Guide on how to install the listed requirements will be included below this sect
 
 ![](/imgs/readme/vscode1.png)
 
-
-
 2. Look for **Microsoft Visual Studio Code** and click Install 
 
 ![](/imgs/readme/vscode2.png)
-
-
 
 ### Live Server VSCode Extension
 
@@ -60,7 +50,6 @@ Guide on how to install the listed requirements will be included below this sect
 3. Search for **Live Server** and install the extension. 
 
 ![](/imgs/readme/live2.png)
-
 
 ## Viewing the calculator
 
