@@ -150,6 +150,7 @@ function validateFields() {
   return valid;
 }
 
+
 // Calculate button logic. Change output calculations here if you change the formula.
 calculateBtn.onclick = () => {
   if (!validateFields()) {
