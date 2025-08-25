@@ -1,24 +1,8 @@
-// Theme toggle logic. Change icons or theme class names here if you want a different theme system.
-const themeToggle = document.getElementById('theme-toggle');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-function setTheme(mode) {
-  document.body.classList.remove('light', 'dark');
-  document.body.classList.add(mode);
-  localStorage.setItem('theme', mode);
-}
-
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-  setTheme(savedTheme);
-} else {
-  setTheme(prefersDark ? 'dark' : 'light');
-}
-
-themeToggle.onclick = () => {
-  const current = document.body.classList.contains('dark') ? 'dark' : 'light';
-  setTheme(current === 'dark' ? 'light' : 'dark');
-};
+// =====================
+//  MAIN CALCULATION LOGIC
+//  To add new calculation logic, add new functions below.
+//  To add new input/output field references, update the selectors below.
+// =====================
 
 //User Configuration Calculator
 
@@ -72,6 +56,11 @@ function getBitsPerClock(datatype, pixelPerClock) {
   return (map[datatype] || 0) * pixelPerClock;
 }
 
+// =====================
+//  VALIDATION LOGIC
+//  To add new validation rules, update the validateFields function below.
+// =====================
+
 // Validate all fields. Adjust validation logic here if you change field ranges or requirements.
 function validateFields() {
   let valid = true;
@@ -85,7 +74,7 @@ function validateFields() {
   let max2 = Number(inputFields[0].max) || 861;
   if (!val2 || isNaN(numVal2) || numVal2 < min2 || numVal2 > max2 || !Number.isInteger(numVal2)) {
     inputFields[0].classList.add('error');
-    errorFields[0].textContent = `Enter a whole number according to hinted range (${min2}-${max2})`;
+    errorFields[0].textContent = `Enter a whole number according to hinted range`;
     errorFields[0].classList.add('active');
     if (!firstErrorInput) firstErrorInput = inputFields[0];
     valid = false;
@@ -114,8 +103,6 @@ function validateFields() {
   inputFields[2].classList.remove('error');
   errorFields[2].textContent = '';
   errorFields[2].classList.remove('active');
-
-  
 
   // 6. Data Type (dropdown, always valid)
   inputFields[3].classList.remove('error');
@@ -150,14 +137,11 @@ function validateFields() {
   return valid;
 }
 
-
 // Calculate button logic. Change output calculations here if you change the formula.
 calculateBtn.onclick = () => {
   if (!validateFields()) {
     outputsSection.style.display = 'none';
     outputsSection.classList.remove('visible', 'hiding');
-    if (verticalSeparator) verticalSeparator.classList.remove('visible');
-    container.classList.add('center-fields');
     return;
   }
 
@@ -183,13 +167,10 @@ calculateBtn.onclick = () => {
   outputFields[3].textContent = (lineRate / numGear).toFixed(3);
 
   outputsSection.style.display = '';
-  setTimeout(() => {
-    outputsSection.classList.remove('hiding');
-    outputsSection.classList.add('visible');
-    if (verticalSeparator) verticalSeparator.classList.add('visible');
-    container.classList.remove('center-fields');
-    outputsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 10);
+  outputsSection.classList.add('visible');
+  outputsSection.classList.remove('hiding');
+  // Ensure input columns do NOT expand on calculate
+  container.classList.remove('expanded');
 };
 
 // Clear button logic. Resets all fields and outputs.
@@ -207,16 +188,29 @@ clearBtn.onclick = () => {
     errorFields[idx].classList.remove('active');
   });
   outputFields.forEach(output => output.textContent = '');
-
   outputsSection.classList.remove('visible');
   outputsSection.classList.add('hiding');
-  if (verticalSeparator) verticalSeparator.classList.remove('visible');
-  container.classList.add('center-fields');
+  outputsSection.style.display = 'none';
+  // Shrink container width
+  const bgContainer = document.querySelector('.index-bg-container');
+  if (bgContainer) {
+    bgContainer.classList.remove('expanded');
+    bgContainer.style.height = 'auto';
+    bgContainer.style.minHeight = '0';
+    bgContainer.style.overflow = 'visible';
+  }
+  if (verticalSeparator)
+    container.classList.add('center-fields');
   setTimeout(() => {
     outputsSection.style.display = 'none';
     outputsSection.classList.remove('hiding');
   }, 350);
 };
+
+// =====================
+//  EVENT HANDLERS
+//  To add new event listeners, add them below.
+// =====================
 
 // Live validation for each input field. Adjust/add logic for new fields here.
 inputFields.forEach((input, idx) => {
@@ -247,15 +241,268 @@ inputFields.forEach((input, idx) => {
   });
 });
 
-// Scroll to top button logic. Change threshold or animation here.
-const scrollTopBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 50) {
-    scrollTopBtn.classList.add('visible');
-  } else {
-    scrollTopBtn.classList.remove('visible');
+document.addEventListener("DOMContentLoaded", function () {
+  const modeSelect = document.getElementById("mode-select");
+  const userConfigSection = document.getElementById("user-config-section");
+  const pxbSection = document.getElementById("pxb-section");
+  const dropdownsContainer = document.getElementById("dropdowns-container");
+  const modeRow = document.getElementById("mode-row");
+  const deviceRow = document.getElementById("device-row");
+  const packageRow = document.getElementById("package-row");
+  const speedRow = document.getElementById("speed-row");
+  const lineRateReminder = document.getElementById("line-rate-reminder");
+  const lineRateRange = document.getElementById("line-rate-range");
+  // Hide/show the user config description/instructions row as well
+  const indexDescRow = document.querySelector('.index-description-row');
+
+  // Set default line rate range on page load
+  function getDefaultLineRateRange() {
+    // These should match the default dropdown values in index.html
+    // Device: CrossLink-NX, Package: WLCSP84, Speed: 7
+    // You can expand this logic if you have a lookup table for other combos
+    return "160-861";
+  }
+  if (lineRateRange) {
+    lineRateRange.textContent = getDefaultLineRateRange();
+  }
+  if (modeSelect && userConfigSection && pxbSection) {
+    // Store original style properties when page loads
+    let originalStyles = {};
+    if (indexDescRow) {
+      originalStyles = {
+        display: indexDescRow.style.display || '',
+        flexDirection: indexDescRow.style.flexDirection || 'row',
+        flexWrap: indexDescRow.style.flexWrap || 'nowrap',
+        justifyContent: indexDescRow.style.justifyContent || 'center',
+        gap: indexDescRow.style.gap || '2rem',
+        width: indexDescRow.style.width || '100%',
+      };
+    }
+    
+    modeSelect.addEventListener("change", function () {
+      if (modeSelect.value === "user-config") {
+        userConfigSection.style.display = "";
+        pxbSection.style.display = "none";
+        
+        if (indexDescRow) {
+          // Restore all the original styles
+          indexDescRow.style.display = originalStyles.display;
+          indexDescRow.style.flexDirection = originalStyles.flexDirection;
+          indexDescRow.style.flexWrap = originalStyles.flexWrap;
+          indexDescRow.style.justifyContent = originalStyles.justifyContent;
+          indexDescRow.style.gap = originalStyles.gap;
+          indexDescRow.style.width = originalStyles.width;
+          
+          // Force horizontal layout with no wrapping
+          indexDescRow.style.flexDirection = 'row';
+          indexDescRow.style.flexWrap = 'nowrap';
+        }
+        
+        if (deviceRow) deviceRow.style.display = '';
+        if (packageRow) packageRow.style.display = '';
+        if (speedRow) speedRow.style.display = '';
+        if (lineRateReminder) lineRateReminder.style.display = '';
+      } else {
+        userConfigSection.style.display = "none";
+        pxbSection.style.display = "";
+        if (indexDescRow) indexDescRow.style.display = 'none';
+        if (deviceRow) deviceRow.style.display = 'none';
+        if (packageRow) packageRow.style.display = 'none';
+        if (speedRow) speedRow.style.display = 'none';
+        if (lineRateReminder) lineRateReminder.style.display = 'none';
+      }
+    });
+  }
+  // Make mobile buttons work like desktop ones
+  const calcBtn = document.getElementById("calculate-btn");
+  const clearBtn = document.getElementById("clear-btn");
+  const calcBtnMobile = document.getElementById("calculate-btn-mobile");
+  const clearBtnMobile = document.getElementById("clear-btn-mobile");
+  if (calcBtn && calcBtnMobile) {
+    calcBtnMobile.addEventListener("click", () => calcBtn.click());
+  }
+  if (clearBtn && clearBtnMobile) {
+    clearBtnMobile.addEventListener("click", () => clearBtn.click());
+  }
+  // Pixel-Byte Frequency Calculator logic
+  const calcP2BBtn = document.getElementById("calc-p2b-btn");
+  const bandwidthOutput = document.getElementById("bandwidth-output");
+  const bandwidthForm = document.getElementById("bandwidth-form");
+  if (calcP2BBtn && bandwidthOutput && bandwidthForm) {
+    calcP2BBtn.addEventListener("click", function () {
+      const pixelClock = parseFloat(document.getElementById("pixel-clock").value);
+      const ppc = parseFloat(document.getElementById("ppc").value);
+      const bpc = parseFloat(document.getElementById("bpc").value);
+      if (isNaN(pixelClock) || isNaN(ppc) || isNaN(bpc)) {
+        bandwidthOutput.textContent = "Please enter valid numbers.";
+        return;
+      }
+      const bandwidth = pixelClock * ppc * bpc;
+      bandwidthOutput.textContent = bandwidth.toLocaleString() + " Mbps";
+    });
+    bandwidthForm.addEventListener("reset", function () {
+      bandwidthOutput.textContent = "";
+    });
+  }
+  const byteClockInput = document.getElementById("byte-clock");
+  const numLanesInput = document.getElementById("num-lanes");
+  const gearInput = document.getElementById("gear");
+  const calcB2PBtn = document.getElementById("calc-b2p-btn");
+  const b2pBandwidthOutput = document.getElementById("b2p-bandwidth-output");
+  const b2pForm = document.getElementById("b2p-form");
+  if (
+    byteClockInput &&
+    numLanesInput &&
+    gearInput &&
+    calcB2PBtn &&
+    b2pBandwidthOutput &&
+    b2pForm
+  ) {
+    calcB2PBtn.addEventListener("click", function () {
+      const byteClock = parseFloat(byteClockInput.value);
+      const numLanes = parseFloat(numLanesInput.value);
+      const gear = parseFloat(gearInput.value);
+      if (
+        isNaN(byteClock) ||
+        byteClock < 0 ||
+        isNaN(numLanes) ||
+        numLanes < 1 ||
+        isNaN(gear) ||
+        (gear !== 8 && gear !== 16)
+      ) {
+        b2pBandwidthOutput.textContent = "Please enter valid values for all fields.";
+        return;
+      }
+      const bandwidth = byteClock * numLanes * gear;
+      b2pBandwidthOutput.textContent = bandwidth + " Mbps";
+    });
+    b2pForm.addEventListener("reset", function () {
+      b2pBandwidthOutput.textContent = "";
+    });
+  }
+  // Enforce line rate bounds for CrossLink-NX, WLCSP84, speed 7
+  const deviceSelect = document.getElementById("device-select");
+  const packageSelect = document.getElementById("package-select");
+  const speedSelect = document.getElementById("speed-select");
+  const lineRateInput = document.getElementById("input1");
+  if (deviceSelect && packageSelect && speedSelect && lineRateInput) {
+    deviceSelect.addEventListener("change", function () {
+      if (deviceSelect.value === "CertusPro-NX_MachXO5") {
+        if (packageRow) packageRow.style.display = "none";
+        if (speedRow) speedRow.style.display = "flex";
+        enforceLineRateBounds(); // update range immediately
+        speedSelect.dispatchEvent(new Event('change'));
+      } else if (deviceSelect.value === "Certus-NX") {
+        if (packageRow) packageRow.style.display = "none";
+        if (speedRow) speedRow.style.display = "flex";
+        enforceLineRateBounds(); // update range immediately
+        speedSelect.dispatchEvent(new Event('change'));
+      } else {
+        if (packageRow) packageRow.style.display = "flex";
+        if (speedRow) speedRow.style.display = "flex";
+        enforceLineRateBounds(); // update range immediately
+        speedSelect.dispatchEvent(new Event('change'));
+      }
+    });
+    packageSelect.addEventListener("change", enforceLineRateBounds);
+    speedSelect.addEventListener("change", enforceLineRateBounds);
+    lineRateInput.addEventListener("blur", enforceLineRateBounds); // Apply self-correcting feature on blur
+  }
+
+  function enforceLineRateBounds() {
+    if (deviceSelect && packageSelect && speedSelect && lineRateInput) {
+      let min = 160;
+      let max = 861; // default to 861
+      // UI logic for Avant
+      if (deviceSelect.value === "Avant") {
+        if (packageRow) packageRow.style.display = "none";
+        if (speedRow) speedRow.style.display = "none";
+        max = 1800;
+      } else if (deviceSelect.value === "Certus-NX") {
+        if (packageRow) packageRow.style.display = "none";
+        if (speedRow) speedRow.style.display = "flex";
+        if (speedSelect.value === "speed_7") max = 1034;
+        else if (speedSelect.value === "speed_8") max = 1200;
+        else if (speedSelect.value === "speed_9") max = 1500;
+      } else if (deviceSelect.value === "CertusPro-NX_MachXO5") {
+        if (packageRow) packageRow.style.display = "none";
+        if (speedRow) speedRow.style.display = "flex";
+        if (speedSelect.value === "speed_7") max = 1034;
+        else if (speedSelect.value === "speed_8") max = 1200;
+        else if (speedSelect.value === "speed_9") max = 1500;
+      } else {
+        if (packageRow) packageRow.style.display = "flex";
+        if (speedRow) speedRow.style.display = "flex";
+        if (deviceSelect.value === "CrossLink-NX") {
+          if (packageSelect.value === "WLCSP84") {
+            if (speedSelect.value === "speed_7") max = 861;
+            else if (speedSelect.value === "speed_8") max = 1000;
+            else if (speedSelect.value === "speed_9") max = 1250;
+          } else if (packageSelect.value === "FCCSP104") {
+            if (speedSelect.value === "speed_7") max = 1034;
+            else if (speedSelect.value === "speed_8") max = 1200;
+            else if (speedSelect.value === "speed_9") max = 1500;
+          } else if (
+            packageSelect.value === "QFN72" ||
+            packageSelect.value === "QFN72/WLCSP72" ||
+            packageSelect.value === "WLCSP72"
+          ) {
+            if (speedSelect.value === "speed_7") max = 861;
+            else if (speedSelect.value === "speed_8") max = 1000;
+            else if (speedSelect.value === "speed_9") max = 1250;
+          } else if (packageSelect.value === "otherLIFCL") {
+            if (speedSelect.value === "speed_7") max = 1034;
+            else if (speedSelect.value === "speed_8") max = 1200;
+            else if (speedSelect.value === "speed_9") max = 1500;
+          }
+        }
+      }
+      // Self-correcting feature for all combinations
+      let val = parseInt(lineRateInput.value, 10);
+      if (!isNaN(val)) {
+        if (val > max) lineRateInput.value = max;
+        if (val < min) lineRateInput.value = min;
+      }
+      lineRateInput.min = min;
+      lineRateInput.max = max;
+      lineRateInput.placeholder = min + "-" + max;
+      var rangeSpan = document.getElementById("line-rate-range");
+      if (rangeSpan) rangeSpan.textContent = min + "-" + max;
+    }
+  }
+
+  const gearGroup = document.getElementById("gear-group");
+  const gearDropdown = document.getElementById("input3");
+  const gearFixed = document.getElementById("input3-fixed");
+  function updateGearField() {
+    if (deviceSelect.value === "CrossLink-NX") {
+      gearDropdown.style.display = "";
+      gearFixed.style.display = "none";
+    } else {
+      gearDropdown.style.display = "";
+      gearFixed.style.display = "none";
+    }
+  }
+  if (deviceSelect && gearDropdown && gearFixed) {
+    deviceSelect.addEventListener("change", updateGearField);
+    updateGearField();
+  }
+  // Enlarge image on click
+  const mipiDiagram = document.getElementById('mipiDiagram');
+  const imgModal = document.getElementById('imgModal');
+  const imgModalContent = document.getElementById('imgModalContent');
+  const imgModalClose = document.getElementById('imgModalClose');
+  if (mipiDiagram && imgModal && imgModalContent && imgModalClose) {
+    mipiDiagram.onclick = function () {
+      imgModal.style.display = 'block';
+      imgModalContent.src = this.src;
+    };
+    imgModalClose.onclick = function () {
+      imgModal.style.display = 'none';
+    };
+    // Close modal when clicking outside the image
+    imgModal.onclick = function (e) {
+      if (e.target === imgModal) imgModal.style.display = 'none';
+    };
   }
 });
-scrollTopBtn.onclick = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};

@@ -3,6 +3,10 @@
   Change these for global color and sizing adjustments.
 */
 
+html {
+  overflow-y: scroll;
+}
+
 .main-banner {
   position: relative;
 }
@@ -35,61 +39,73 @@
   margin-top: 0;
 } */
 
-
-
 :root {
   --bg: #fff;
   --text: #111;
+  --label-color: #111;
+  --dropdown-text-color: #222;
+  --input-label-color: #ffb300;
+  --dropdown-label-color: #ffffff;
+  --instructions-text-color: #ffffff;
+  --description-text-color: #ffffff;
+  --output-text-color: #ffffff;
   --input-bg: #fffbe7;
   --input-border: #ffe066;
   --input-focus: #ffd600;
-  --output-bg: #fffde7;
+  --output-bg: #000000;
   --output-border: #ffe066;
-  --output-label: #ffb300;
-  --output-value: #222;
+  --output-label: #000000;
+  --output-value: #000000;
   --accent: #ffd600;
   --shadow: 0 4px 24px rgba(255, 221, 51, 0.08);
-  --transition: 0.3s cubic-bezier(.4, 0, .2, 1);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --error: #e53935;
 }
 
-/* Light and dark mode overrides */
-body.light {
-  --bg: #fff;
-  --text: #111;
-  --input-bg: #fffbe7;
-  --input-border: #111;
-  --input-focus: #111;
-  --output-bg: #fffde7;
-  --output-border: #111;
-  --output-label: #111;
-  --output-value: #111;
-  --accent: #ffd600;
-  --shadow: 0 4px 24px rgba(255, 221, 51, 0.08);
-  --label-color: #111;
+/* Input label color */
+.field-group label {
+  color: var(--input-label-color);
 }
 
-body.dark {
-  --bg: #181a1b;
-  --text: #fffde7;
-  --input-bg: #23272a;
-  --input-border: #ffd600;
-  --input-focus: #ffe066;
-  --output-bg: #23272a;
-  --output-border: #ffd600;
-  --output-label: #ffe066;
-  --output-value: #fffde7;
-  --accent: #ffd600;
-  --shadow: 0 4px 24px rgba(255, 221, 51, 0.12);
-  --label-color: #ffe066;
+/* Dropdown label color (for labels next to selects) */
+#mode-row label,
+#device-row label,
+#package-row label,
+#speed-row label {
+  color: var(--dropdown-label-color);
+}
+
+/* Dropdown text color */
+select,
+input[type="number"],
+input[type="text"] {
+  color: var(--dropdown-text-color);
+}
+
+/* Instructions and description box text color */
+.instructions-block,
+.description-box .desc-text {
+  color: white;
+}
+
+.description-box {
+  color: white;
+}
+
+/* Output text color */
+.output-group span,
+.output-value,
+#bandwidth-output,
+#b2p-bandwidth-output,
+#bitsclock-output {
+  color: white;
 }
 
 body {
-  background: var(--bg);
-  /* Page background color */
+  background: url("imgs/lattice_bg_cropped.png") no-repeat center center fixed;
+  background-size: cover;
   color: var(--text);
-  /* Main text color */
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
   min-height: 100vh;
   display: block;
@@ -97,65 +113,7 @@ body {
   /* Change for global font size */
 }
 
-/* Theme toggle button (top right) */
-.theme-toggle {
-  position: fixed;
-  top: unset;
-  bottom: 1.2rem;
-  right: 0.5rem;
-  background: var(--input-bg);
-  color: var(--accent);
-  border: none;
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.08);
-  transition: background var(--transition), color var(--transition), transform var(--transition);
-  z-index: 10;
-  overflow: hidden;
-  padding: 0;
-}
-
-.theme-toggle .icon-sun,
-.theme-toggle .icon-moon {
-  position: absolute;
-  transition: opacity var(--transition), transform var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.theme-toggle .icon-sun {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.theme-toggle .icon-moon {
-  opacity: 0;
-  transform: scale(0.7);
-}
-
-body.dark .theme-toggle .icon-sun {
-  opacity: 0;
-  transform: scale(0.7);
-}
-
-body.dark .theme-toggle .icon-moon {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.theme-toggle:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: scale(1.1);
-}
-
-/*Navigation Button*/
+/* Navigation Button*/
 .main-nav {
   display: flex;
   justify-content: center;
@@ -168,7 +126,6 @@ body.dark .theme-toggle .icon-moon {
   margin-bottom: 1.2rem;
 }
 
-
 .nav-link {
   color: var(--text);
   text-decoration: none;
@@ -176,21 +133,23 @@ body.dark .theme-toggle .icon-moon {
   font-size: 1.08em;
   padding: 0.3rem 1.2rem;
   border-radius: 0.4rem;
-  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+  transition: background var(--transition), color var(--transition),
+    box-shadow var(--transition);
 }
 
 .nav-link:hover,
 .nav-link.active {
   background: var(--accent);
   color: #111;
-  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.10);
+  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.1);
 }
 
 .main-content-row {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 2.5rem; /* Equal spacing between description, input, and table */
+  gap: 2.5rem;
+  /* Equal spacing between description, input, and table */
   width: 100%;
   justify-content: center;
   position: relative;
@@ -219,9 +178,12 @@ body.dark .theme-toggle .icon-moon {
   width: 100%;
   font-weight: normal;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.table-border td, .table-border th {
+.table-border td,
+.table-border th {
   border: 1px solid #888;
   padding: 0.5rem;
   text-align: center;
@@ -245,15 +207,14 @@ body.dark .theme-toggle .icon-moon {
   align-items: center;
   max-width: 600px;
   /* Change for wider/narrower container */
-  width: fit-content;
-  max-height: min-content;
-  justify-content: center;
+  width: 100%;
 }
 
 .container.center-fields {
   justify-content: center;
   align-items: center;
-  transition: justify-content var(--transition), align-items var(--transition), padding var(--transition);
+  transition: justify-content var(--transition), align-items var(--transition),
+    padding var(--transition);
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
@@ -271,7 +232,7 @@ body.dark .theme-toggle .icon-moon {
 .fields-section {
   flex: 1 1 auto;
   display: flex;
-  gap: 2rem;
+  gap: 3.5rem;
   /* Space between columns */
 }
 
@@ -280,17 +241,27 @@ body.dark .theme-toggle .icon-moon {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .fields-col:first-child {
   margin-top: 0rem;
-  /* Adjust this value as needed (negative moves up, positive moves down) */
 }
 
-/* Move right column up if needed (edit margin-top value) */
+
 .fields-col:last-child {
-  margin-top: 0.2rem;
-  /* Adjust this value to move right column up/down */
+  margin-top: 0rem;
+
+}
+
+.index-bg-container .fields-col:first-child {
+  margin-top: 0rem;
+  margin-right: -5rem;
+}
+
+.index-bg-container .fields-col:last-child {
+  margin-top: 0rem;
 }
 
 /* Button row under Number of Gear (desktop) */
@@ -308,25 +279,22 @@ body.dark .theme-toggle .icon-moon {
   display: none;
 }
 
-
-
 /* Output section styles */
 .outputs-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  transition: transform var(--transition);
-}
-
-.outputs-section {
+  margin: auto;
+  display: block;
+  max-width: 320px;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: #fefbe8;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   min-width: 180px;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transform: translateY(30px) scale(0.98);
-  transition:
-    opacity var(--transition),
-    visibility var(--transition),
+  transition: opacity var(--transition), visibility var(--transition),
     transform var(--transition);
 }
 
@@ -335,7 +303,7 @@ body.dark .theme-toggle .icon-moon {
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0) scale(1);
-  animation: fadeInSlideUp 0.5s cubic-bezier(.4, 0, .2, 1);
+  animation: fadeInSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeInSlideUp {
@@ -355,23 +323,12 @@ body.dark .theme-toggle .icon-moon {
   visibility: hidden;
   pointer-events: none;
   transform: translateY(30px) scale(0.98);
-  transition:
-    opacity var(--transition),
-    visibility var(--transition),
+  transition: opacity var(--transition), visibility var(--transition),
     transform var(--transition);
 }
 
-.output-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  background: var(--output-bg);
-  border: 2px solid var(--output-border);
-  border-radius: 0.4rem;
-  padding: 0.5rem 0.7rem;
-  min-height: 36px;
-  box-shadow: 0 2px 8px rgba(255, 221, 51, 0.04);
-  transition: border-color var(--transition), background var(--transition);
+.container.center-fields {
+  background: linear-gradient(to bottom right, #000000, #363636 80%);
 }
 
 .output-group span,
@@ -396,6 +353,15 @@ body.dark .theme-toggle .icon-moon {
   font-size: 0.92em;
   word-break: break-all;
   transition: color var(--transition);
+}
+
+.video-timing-container .output-group span,
+.video-timing-container .output-value {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #000000 !important;
+  /* or use var(--output-value) for theme support */
 }
 
 /* Field group (label + input) */
@@ -423,7 +389,8 @@ body.dark .theme-toggle .icon-moon {
   background: var(--input-bg);
   color: var(--text);
   font-size: 0.92em;
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition),
+    background var(--transition), color var(--transition);
   outline: none;
   box-shadow: 0 2px 8px rgba(255, 221, 51, 0.04);
   width: 160px;
@@ -523,7 +490,7 @@ select.highlight {
   border: none;
   background: var(--input-bg);
   color: var(--accent);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -531,11 +498,8 @@ select.highlight {
   opacity: 0;
   pointer-events: none;
   z-index: 100;
-  transition:
-    background var(--transition),
-    color var(--transition),
-    opacity var(--transition),
-    box-shadow var(--transition),
+  transition: background var(--transition), color var(--transition),
+    opacity var(--transition), box-shadow var(--transition),
     transform var(--transition);
 }
 
@@ -558,7 +522,7 @@ select.highlight {
   max-width: 420px;
   margin: 3rem auto 2rem auto;
   margin-top: 5.5rem;
-  background: #232426;
+  background: linear-gradient(to bottom right, #232426, #2c2f33);
   border-radius: 20px;
   padding: 2.5rem 2rem 2rem 2rem;
   box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
@@ -592,7 +556,7 @@ select.highlight {
 }
 
 .container {
-  max-width: 700px;
+  max-width: 1100px;
   margin: 2rem auto;
   background: #232426;
   border-radius: 20px;
@@ -600,7 +564,176 @@ select.highlight {
   box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
 }
 
+/*Instructions, input field, output field alignment for Video Timing Calculator*/
 
+.flex-row {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.main-flex-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* Align items to the left */
+  margin-top: 0;
+}
+
+.video-timing-container {
+  background: var(--input-bg);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+  margin: 0;
+  margin-right: 100px;
+  display: flex;
+  gap: 4rem;
+  /* space between form and output */
+  align-items: flex-start;
+  margin-left: 100px;
+  max-width: 2000px;
+}
+
+.form-block {
+  flex: 1 1 0;
+  min-width: 280px;
+  max-width: 100%;
+}
+
+#outputSection {
+  flex: 1 1 320px;
+  /* Allow to grow/shrink, set min width */
+  min-width: 300px;
+  max-width: 100%;
+}
+
+.instructions-block {
+  max-width: 400px;
+  /* or any value you prefer */
+  width: 100%;
+  /* or set a fixed width like 350px */
+  background: var(--input-bg);
+  color: var(--text);
+  padding: 2rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+}
+
+body.light .video-timing-container .output-group span,
+body.light .video-timing-container .output-value,
+body.light .video-timing-container #bandwidth-output,
+body.light .video-timing-container #b2p-bandwidth-output,
+body.light .video-timing-container #bitsclock-output {
+  color: #232426 !important;
+  
+}
+
+/*Input styling for Video Timing Calculator*/
+
+.video-timing-container .form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.video-timing-bg-container label,
+.video-timing-bg-container .field-group label {
+  font-size: 0.92em;
+  /* smaller label font */
+  margin-bottom: 0.15rem;
+  margin-right: 0.5rem;
+  /* space between label and input */
+  min-width: 140px;
+  /* adjust as needed for alignment */
+  text-align: left;
+  /* optional: right-align label text */
+  color: #ffdd33;
+}
+
+.video-timing-container input[type="number"],
+.video-timing-container input[type="text"],
+.video-timing-container select {
+  font-size: 0.92em;
+  /* smaller input font */
+  padding: 0.3rem 0.5rem;
+  /* less padding */
+  width: 220px;
+  /* narrower input box */
+  max-width: 1000px;
+  box-sizing: border-box;
+}
+
+.video-timing-container #bitsPerPixel {
+  background: #e0e0e0 !important;
+  color: #232426 !important;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: var(--text);
+  /* or your preferred color */
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: var(--input-focus);
+  outline: none;
+}
+
+button#calculateButton {
+  background-color: #ffdd33;
+  color: #232426;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  display: block;
+  width: 100%;
+}
+
+button#clearButton {
+  background-color: #ffdd33;
+  color: #232426;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 1rem;
+  display: block;
+  width: 100%;
+}
 
 /* Field label and input styling */
 .field-group label {
@@ -627,6 +760,64 @@ select.highlight {
   border-color: #fff700;
 }
 
+/* Tooltip styling */
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tooltip-icon {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.9em;
+  color: var(--input-border);
+  cursor: help;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 350px;
+  background-color: var(--input-bg);
+  color: var(--text);
+  text-align: left;
+  border-radius: 6px;
+  padding: 12px;
+  border: 1px solid var(--accent);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+
+  /* Typography */
+  font-weight: normal;
+  font-size: 0.9em;
+  line-height: 1.4;
+
+  /* Fade in animation */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-text ul {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+
+.tooltip-text li {
+  margin-bottom: 8px;
+}
+
+/* Show the tooltip on hover */
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
 /* Output group styling */
 .bandwidth-output-group {
   width: 100%;
@@ -637,7 +828,9 @@ select.highlight {
   align-items: center;
 }
 
-#bandwidth-output, #b2p-bandwidth-output, #byteclock-output {
+#bandwidth-output,
+#b2p-bandwidth-output,
+#bitsclock-output {
   color: #fff;
   font-size: 1.2em;
   font-weight: bold;
@@ -781,6 +974,7 @@ select.highlight {
 }
 
 /* Light mode: force white backgrounds for main container and fields */
+
 body.light .container,
 body.light .bandwidth-card {
   background: #fff !important;
@@ -798,18 +992,28 @@ body.light .field-group select {
 
 body.light .field-group label,
 body.light .output-label {
-  color: #000 !important;
+  color: var(--text);
 }
 
 body.light #bandwidth-output,
-body.light #byteclock-output,
-body.light #b2p-bandwidth-output{
+body.light #bitsclock-output,
+body.light #b2p-bandwidth-output {
   color: #000 !important;
+}
+
+/* Light mode: output container background for index.html */
+body.light #bandwidth-output,
+body.light .output-container {
+  background: #fffde7 !important;
+  /* or another light color for contrast */
+  color: #232426 !important;
+  /* ensure text is readable */
+  border-color: #ffe066 !important;
 }
 
 .mode-selector {
   display: flex;
-  margin-top: 1.6rem; 
+  margin-top: 1.6rem;
   margin-bottom: 2rem;
   flex-direction: column;
   align-items: center;
@@ -953,4 +1157,369 @@ body.light #b2p-bandwidth-output{
 #dphy-rx-output-table td,
 #dphy-rx-output-table th {
   width: 150px;
+}
+
+/*For image magnification modal*/
+/* Modal background */
+.img-modal {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 110vw;
+  height: 200vh;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+.img-modal-content {
+  margin-top: 3rem;
+  display: block;
+  max-width: 90vw;
+  max-height: 90vh;
+  box-shadow: 0 0 24px #000;
+  border-radius: 8px;
+}
+
+/* Close button for the modal */
+.img-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1010;
+  transition: color 0.2s;
+}
+
+/* Close button hover effect */
+.img-modal-close:hover {
+  color: #ffdd33;
+}
+
+.img-magnify {
+  cursor: zoom-in;
+}
+
+/* Top description row as flexbox */
+.dphy-description-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+  align-items: stretch;
+  margin-bottom: 1.2rem;
+  margin-top: 2.5rem;
+}
+.dphy-description-row .description-box {
+  flex: 1 1 0;
+  min-width: 260px;
+  max-width: 480px;
+  margin-bottom: 0;
+  margin-left: 0;
+  font-weight: bold;
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* Main content row as flexbox */
+.main-content-padded {
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0 !important;
+  margin: 0 auto !important;
+}
+
+.main-content-padded > div {
+  flex: 1 1 0;
+  min-width: 320px;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+/* Input container as flexbox */
+.container.center-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto !important;
+}
+
+/* Output tables as flexbox */
+.description-box[style*="max-width: 900px"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto !important;
+  margin-top: 2rem;
+}
+
+.table-border {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* DPYH Register Configuration page styles */
+.dphy-bg-container {
+  box-shadow: 0 4px 32px 0 rgba(34, 56, 90, 0.12);
+  border-radius: 18px;
+  padding: 2rem 0;
+  min-height: calc(100vh - 8rem);
+  max-height: fit-content;
+  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+@media (max-width: 900px) {
+  .dphy-bg-container {
+    padding: 1.2rem 0.5rem;
+    max-width: 99vw;
+    min-height: 90vh;
+  }
+}
+
+/* Video Timing Calculator page styles */
+.video-timing-bg-container {
+  /* box-shadow: 0 4px 32px 0 rgba(34, 56, 90, 0.12); */
+  border-radius: 18px;
+  padding: 2rem 0;
+  min-height: calc(100vh - 8rem);
+  max-height: fit-content;
+  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+@media (max-width: 900px) {
+  .video-timing-bg-container {
+    padding: 1.2rem 0.5rem;
+    max-width: 99vw;
+    min-height: 90vh;
+  }
+}
+
+/* Video Timing description row as flexbox */
+.video-timing-description-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+  align-items: stretch;
+  margin-bottom: 1.2rem;
+  margin-top: 2.5rem;
+}
+
+.video-timing-description-row .description-box {
+  flex: 1 1 0;
+  min-width: 260px;
+  max-width: 480px;
+  margin-bottom: 0;
+  margin-left: 0;
+  font-weight: bold;
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* New styles for index.html description and instructions layout */
+.index-bg-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 80vw;
+  min-width: 340px;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, #474747 0%, #1d1d1d 70%);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.3s,
+    height 0.3s;
+  overflow: visible;
+  border-radius: 18px;
+  height: fit-content;
+}
+
+.index-bg-container.expanded {
+  width: 100rem;
+  max-width: 120rem;
+}
+
+.index-desc-flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 2.5rem 3rem 0 3rem;
+}
+
+.index-desc-col {
+  flex: 1 1 0;
+  min-width: 320px;
+  max-width: 520px;
+  color: white;
+}
+
+/* Dropdown alignment fixes */
+#dropdowns-container > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  min-width: 270px;
+  width: 270px;
+}
+
+#mode-row,
+#device-row,
+#package-row,
+#speed-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Reduced gap for tighter spacing */
+  width: 270px;
+  min-height: 1.5rem; /* Reduced min-height for less vertical space */
+  margin-bottom: 0.2rem; /* Add a small margin if needed, or set to 0 for no extra space */
+  padding-bottom: 0; /* Ensure no extra padding */
+}
+
+#mode-select,
+#device-select,
+#package-select,
+#speed-select {
+  min-width: 320px;
+  max-width: 320px;
+}
+
+#mode-row:last-child,
+#device-row:last-child,
+#package-row:last-child,
+#speed-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Video Timing Calculator specific styles */
+.video-timing-bg-container {
+  background: linear-gradient(to bottom, #474747 0%, #1d1d1d 70%);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 950px;
+  transition: all 0.3s ease;
+}
+
+.video-timing-bg-container.expanded {
+  max-width: 1100px;
+}
+
+@media (max-width: 900px) {
+  .video-timing-bg-container {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+}
+
+.video-timing-description-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.video-timing-description-row .description-box {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Video Timing Calculator side-by-side layout */
+.video-timing-bg-container .container.center-fields {
+  transition: all 0.3s ease;
+}
+
+.video-timing-bg-container .container.center-fields .form-group {
+  width: 12.5rem;
+}
+
+.video-timing-bg-container .container.center-fields.expanded {
+  min-width: 1600px;
+}
+
+/* Adjust spacing between input and output containers */
+.video-timing-bg-container .container.center-fields > div {
+  gap: 30rem;
+}
+
+/* Make the input container take more space */
+.video-timing-bg-container .container.center-fields .form-block {
+  flex: 2;
+  min-width: 600px;
+}
+
+/* Position the output container more to the right */
+.video-timing-bg-container .container.center-fields .outputs-section {
+  flex: 1;
+  margin-left: 5rem;
+}
+
+/* Video timing output label styling - make them black */
+.video-timing-bg-container .output-label {
+  color: #000000 !important;
+  font-weight: 600;
+  font-size: 0.92em;
+  margin-bottom: 0.1rem;
+  letter-spacing: 0.03em;
+}
+
+/* Video timing output value styling*/
+.video-timing-bg-container .output-value {
+  color: #000000 !important;
+  font-size: 0.92em;
+  word-break: break-all;
+}
+
+/* Responsive adjustments for side-by-side layout */
+@media (max-width: 1200px) {
+  .video-timing-bg-container .container.center-fields > div {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .video-timing-bg-container .container.center-fields .outputs-section {
+    min-width: 100%;
+    max-width: none;
+  }
 }

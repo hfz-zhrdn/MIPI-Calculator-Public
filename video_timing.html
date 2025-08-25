@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Timing Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" href="imgs/favicon.ico" />
+  </head>
+
+  <body>
+    <!-- Banner/Header -->
+    <header class="main-banner">
+      <div class="banner-content">
+        <!-- Logo and navigation side by side -->
+        <div style="display: flex; align-items: center; gap: 2rem">
+          <a href="https://www.latticesemi.com/" target="_blank" rel="noopener">
+            <img
+              src="imgs/Lattice Logo Yellow_White.png"
+              alt="Lattice Semiconductor Logo"
+              class="banner-logo"
+            />
+          </a>
+          <!--To add new pages & highlight which page user is on-->
+          <nav class="top-nav">
+            <a href="index.html" class="nav-link">MIPI Configuration</a>
+            <a href="dphy.html" class="nav-link">Soft D-PHY Parameter</a>
+            <a href="video_timing.html" class="nav-link active">Video Timing</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main background container -->
+    <div class="video-timing-bg-container">
+      <main>
+        <!-- Top description row as flexbox -->
+        <div class="video-timing-description-row" style="margin-top: -1.5rem">
+          <!-- Description and image column -->
+          <div
+            class="description-box"
+            style="max-width: 380px; min-width: 260px; margin-top: 2rem"
+          >
+            <h2>Video Timing Calculator</h2>
+            <p style="font-weight: normal">
+              This calculator helps you calculate the required pixel clock and
+              bandwidth for the target video resolution.
+            </p>
+            <div
+              class="frame-diagram-container"
+              style="text-align: center; margin-top: 1rem"
+            >
+              <img
+                id="frameDiagramImg"
+                src="imgs/Calculator-FrameDiagram.png"
+                alt="Calculator Frame Diagram"
+                style="max-width: 100%; height: auto; cursor: zoom-in"
+              />
+              <div
+                style="
+                  font-size: 0.98em;
+                  color: #888;
+                  margin-top: 0.5rem;
+                  font-weight: normal;
+                "
+              >
+                Click this image to enlarge
+              </div>
+            </div>
+          </div>
+          <!-- Instructions column -->
+          <div
+            class="description-box"
+            style="max-width: 380px; min-width: 260px; margin-top: 2rem"
+          >
+            <h2>Instructions</h2>
+            <ol style="font-weight: normal">
+              <li>
+                You may choose either preset resolution or custom resolution
+                that you require in the calculator. If you choose any preset
+                resolution (CTA/CEA or VESA), the parameters will be populated
+                automatically.
+              </li>
+              <li>
+                If you choose to customize, please populate the
+                horizontal/vertical active and blanking information. Then,
+                populate the rest of the parameters (color format, Pixel Per
+                Clock, Refresh Rate (Hz), and so on).
+              </li>
+              <li>
+                The calculator will auto-calculate the total link bandwidth used
+                (Gbps), as well as required pixel clock.
+              </li>
+              <li>Click "Clear" to reset the calculator.</li>
+            </ol>
+          </div>
+        </div>
+        <!-- Main content row as flexbox -->
+        <div class="main-content-padded">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              width: 100%;
+              margin-left: 0;
+              margin-top: 0;
+            "
+          >
+            <div
+              class="container center-fields"
+              style="min-width: 800px; position: relative; align-self: center"
+            >
+              <!-- Input & Output Container - Side by side layout -->
+              <div style="display: flex; gap: 2rem; align-items: flex-start">
+                <!-- Left: Input Fields -->
+                <div class="form-block" style="flex: 1; min-width: 0">
+                  <form id="customResoForm">
+                    <!-- Two-column layout for input fields -->
+                    <div class="fields-section" style="gap: 5rem">
+                      <!-- Left column (8 fields) -->
+                      <div class="fields-col">
+                        <!-- Preset Resolution -->
+                        <div class="form-group">
+                          <label
+                            for="presetResolution"
+                            class="tooltip-container"
+                          >
+                            Preset Resolution
+                            <span class="tooltip-icon" style="font-size: 12px"
+                              >?</span
+                            >
+                            <div class="tooltip-text">
+                              <strong>Note:</strong>
+                              <ul>
+                                <li>
+                                  Reference Resolutions are based on the VESA
+                                  Display Monitor Timing Standard (Version 1.0,
+                                  Revision 12) and CEA-861-G specification.
+                                </li>
+                                <li>
+                                  CTA (Consumer Technology Association) is the
+                                  rebranded name (since 2015) of the CEA
+                                  (Consumer Electronics Association), which is
+                                  the organization that defines standards like
+                                  CTA-861 (formerly CEA-861) for video
+                                  interfaces such as HDMI.
+                                </li>
+                              </ul>
+                            </div>
+                          </label>
+                          <select
+                            id="presetResolution"
+                            name="presetResolution"
+                            style="width: 14.1rem"
+                          >
+                            <option value="Custom">Custom</option>
+                            <option value="CTA_1280_720_60">
+                              CTA/CEA 1280x720 @60Hz
+                            </option>
+                            <option value="CTA_1920_1080_60">
+                              CTA/CEA 1920x1080 @60Hz
+                            </option>
+                            <option value="VESA_3840_2160_30">
+                              VESA 3840x2160 @30Hz
+                            </option>
+                            <option value="VESA_3840_2160_60">
+                              VESA 3840x2160 @60Hz
+                            </option>
+                          </select>
+                        </div>
+                        <!-- Horizontal Blanking Components -->
+                        <div class="form-group">
+                          <label for="hSync">Horizontal Sync</label>
+                          <input
+                            type="number"
+                            id="hSync"
+                            name="hSync"
+                            min="0"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="hBackPorch">Horizontal Back Porch</label>
+                          <input
+                            type="number"
+                            id="hBackPorch"
+                            name="hBackPorch"
+                            min="0"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="hFrontPorch"
+                            >Horizontal Front Porch</label
+                          >
+                          <input
+                            type="number"
+                            id="hFrontPorch"
+                            name="hFrontPorch"
+                            min="0"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="TotalhBlank"
+                            >Total Horizontal Blanking</label
+                          >
+                          <input
+                            type="text"
+                            id="TotalhBlank"
+                            name="TotalhBlank"
+                            readonly
+                            style="
+                              background: #7c7c7c;
+                              color: #585858;
+                              cursor: not-allowed;
+                            "
+                          />
+                        </div>
+                        <!-- Vertical Blanking Components -->
+                        <div class="form-group">
+                          <label for="vSync">Vertical Sync</label>
+                          <input
+                            type="number"
+                            id="vSync"
+                            name="vSync"
+                            min="0"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="vBackPorch">Vertical Back Porch</label>
+                          <input
+                            type="number"
+                            id="vBackPorch"
+                            name="vBackPorch"
+                            min="0"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="vFrontPorch">Vertical Front Porch</label>
+                          <input
+                            type="number"
+                            id="vFrontPorch"
+                            name="vFrontPorch"
+                            min="0"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="TotalvBlank"
+                            >Total Vertical Blanking</label
+                          >
+                          <input
+                            type="text"
+                            id="TotalvBlank"
+                            name="TotalvBlank"
+                            readonly
+                            style="
+                              background: #7c7c7c;
+                              color: #585858;
+                              cursor: not-allowed;
+                            "
+                          />
+                        </div>
+                      </div>
+                      <!-- Right column (7 fields) -->
+                      <div class="fields-col">
+                        <div class="form-group">
+                          <label for="hActive">Horizontal Pixels</label>
+                          <input
+                            type="number"
+                            id="hPixels"
+                            name="hPixels"
+                            min="1"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="vActive">Vertical Lines</label>
+                          <input
+                            type="number"
+                            id="vLines"
+                            name="vLines"
+                            min="1"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="refreshRate">Refresh Rate (Hz)</label>
+                          <input
+                            type="number"
+                            id="refreshRate"
+                            name="refreshRate"
+                            min="1"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="colorFormat">Color Format</label>
+                          <select
+                            id="colorFormat"
+                            name="colorFormat"
+                            required
+                            style="width: 14.2rem"
+                          >
+                            <option value="RGB666">RGB, 4:4:4, 6 BPC</option>
+                            <option value="RGB888">RGB, 4:4:4, 8 BPC</option>
+                            <option value="RGB101010">
+                              RGB, 4:4:4, 10 BPC
+                            </option>
+                            <option value="RGB121212">
+                              RGB, 4:4:4, 12 BPC
+                            </option>
+                            <option value="RGB161616">
+                              RGB, 4:4:4, 16 BPC
+                            </option>
+
+                            <option value="YCbCr444_8">
+                              YCbCr, 4:4:4, 8 BPC
+                            </option>
+                            <option value="YCbCr444_10">
+                              YCbCr, 4:4:4, 10 BPC
+                            </option>
+                            <option value="YCbCr444_12">
+                              YCbCr, 4:4:4, 12 BPC
+                            </option>
+                            <option value="YCbCr444_16">
+                              YCbCr, 4:4:4, 16 BPC
+                            </option>
+                            <option value="YCbCr422_8">
+                              YCbCr, 4:2:2, 8 BPC
+                            </option>
+                            <option value="YCbCr422_10">
+                              YCbCr, 4:2:2, 10 BPC
+                            </option>
+                            <option value="YCbCr422_12">
+                              YCbCr, 4:2:2, 12 BPC
+                            </option>
+                            <option value="YCbCr422_16">
+                              YCbCr, 4:2:2, 16 BPC
+                            </option>
+                            <option value="YCbCr420_8">
+                              YCbCr, 4:2:0, 8 BPC
+                            </option>
+                            <option value="YCbCr420_10">
+                              YCbCr, 4:2:0, 10 BPC
+                            </option>
+                            <option value="YCbCr420_12">
+                              YCbCr, 4:2:0, 12 BPC
+                            </option>
+                            <option value="YCbCr420_16">
+                              YCbCr, 4:2:0, 16 BPC
+                            </option>
+                            <option value="RAW8">RAW8</option>
+                            <option value="RAW10">RAW10</option>
+                            <option value="RAW12">RAW12</option>
+                            <option value="RAW14">RAW14</option>
+                            <option value="RAW16">RAW16</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="bitsPerPixel">Bits per Pixel</label>
+                          <input
+                            type="text"
+                            id="bitsPerPixel"
+                            name="bitsPerPixel"
+                            readonly
+                            style="
+                              background: #7c7c7c;
+                              color: #585858;
+                              cursor: not-allowed;
+                            "
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="pixelPerClock">Pixel Per Clock</label>
+                          <select
+                            id="pixelPerClock"
+                            name="pixelPerClock"
+                            style="width: 14.2rem"
+                            required
+                          >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Buttons outside the two-column layout -->
+                    <div
+                      class="button-row"
+                      style="margin-top: 1.5rem; justify-content: center"
+                    >
+                      <button
+                        type="button"
+                        id="calculateButton"
+                        class="action-btn"
+                      >
+                        Calculate
+                      </button>
+                      <button type="button" id="clearButton" class="action-btn">
+                        Clear
+                      </button>
+                    </div>
+                  </form>
+                  <div id="result"></div>
+                </div>
+                <!-- Right: Output Section -->
+                <div
+                  class="outputs-section"
+                  id="outputSection"
+                  style="display: none; min-width: 200px; max-width: 270px"
+                >
+                  <div class="output-group">
+                    <span class="output-label">Horizontal Total Pixel:</span>
+                    <span class="output-value" id="outHTotal">-</span>
+                  </div>
+                  <div class="output-group">
+                    <span class="output-label">Vertical Total Lines:</span>
+                    <span class="output-value" id="outVTotal">-</span>
+                  </div>
+                  <div class="output-group">
+                    <span class="output-label"
+                      >Total Pixel per Frame per Sec:</span
+                    >
+                    <span class="output-value" id="outTotalPixelPerSec">-</span>
+                  </div>
+                  <div class="output-group">
+                    <span class="output-label">Pixel Clock (MHz):</span>
+                    <span class="output-value" id="outPixelClock">-</span>
+                  </div>
+                  <div class="output-group">
+                    <span class="output-label"
+                      >Total Link Bandwidth Used (Gbps):</span
+                    >
+                    <span class="output-value" id="outLinkBandwidthUsed"
+                      >-</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="video_timing.js"></script>
+    <div id="imgModal" class="img-modal" style="display: none">
+      <span
+        class="img-modal-close"
+        id="imgModalClose"
+        style="
+          position: absolute;
+          top: 20px;
+          right: 40px;
+          font-size: 40px;
+          color: #fff;
+          cursor: pointer;
+          z-index: 11;
+        "
+        >&times;</span
+      >
+      <img
+        class="img-modal-content"
+        id="imgModalContent"
+        style="
+          max-width: 90vw;
+          max-height: 90vh;
+          margin: 0;
+          display: block;
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+          border-radius: 8px;
+        "
+      />
+    </div>
+    <style>
+      .img-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .img-modal.show {
+        display: flex !important;
+      }
+      .img-modal-content {
+        max-width: 90vw;
+        max-height: 90vh;
+        margin: 0;
+        display: block;
+        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+      }
+    </style>
+    <script>
+      // Enlarge image on click
+      document.getElementById("frameDiagramImg").onclick = function () {
+        var modal = document.getElementById("imgModal");
+        modal.classList.add("show");
+        document.getElementById("imgModalContent").src = this.src;
+      };
+      document.getElementById("imgModalClose").onclick = function () {
+        document.getElementById("imgModal").classList.remove("show");
+      };
+      // Close modal when clicking outside the image
+      document.getElementById("imgModal").onclick = function (e) {
+        if (e.target === this) this.classList.remove("show");
+      };
+    </script>
+  </body>
+</html>

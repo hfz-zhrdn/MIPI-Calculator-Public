@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>D-PHY Timing Calculator</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" type="image/png" href="imgs/logoLattice_edited.png" />
+    <link rel="icon" type="image/png" href="imgs/favicon.ico" />
     <style>
       @media (max-width: 900px) {
-        .description-box.absolute-left {
+        description-box.absolute-left {
           display: none !important;
         }
         .main-content-padded {
@@ -28,117 +28,189 @@
         width: 100%;
         box-sizing: border-box;
       }
+      /* New styles for flexbox description row */
+      .dphy-description-row {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 1.2rem;
+      }
+      .dphy-bg-container {
+        background: linear-gradient(to bottom, #474747 0%, #1d1d1d 100%);
+        padding: 2rem 0;
+        min-height: calc(100vh - 8rem);
+      }
+      .img-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .img-modal.show {
+        display: flex !important;
+      }
+      .img-modal-content {
+        max-width: 90vw;
+        max-height: 90vh;
+        margin: 0;
+        display: block;
+        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+      }
     </style>
   </head>
   <body>
     <header class="main-banner">
       <div class="banner-content">
-        <button
-          id="theme-toggle"
-          class="theme-toggle"
-          aria-label="Toggle dark/light mode"
-          style="margin-right: 1.2rem"
-        >
-          <span class="icon-sun">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <circle cx="11" cy="11" r="5" fill="currentColor" />
-              <g stroke="currentColor" stroke-width="2">
-                <line x1="11" y1="1" x2="11" y2="4" />
-                <line x1="11" y1="18" x2="11" y2="21" />
-                <line x1="1" y1="11" x2="4" y2="11" />
-                <line x1="18" y1="11" x2="21" y2="11" />
-                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
-                <line x1="15.66" y1="15.66" x2="17.78" y2="17.78" />
-                <line x1="4.22" y1="17.78" x2="6.34" y2="15.66" />
-                <line x1="15.66" y1="6.34" x2="17.78" y2="4.22" />
-              </g>
-            </svg>
-          </span>
-          <span class="icon-moon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <path
-                d="M17 14.5A7 7 0 0 1 7.5 5c0-.17.01-.34.02-.5A7 7 0 1 0 17 14.5Z"
-                fill="currentColor"
-              />
-            </svg>
-          </span>
-        </button>
         <div style="display: flex; align-items: center; gap: 2rem">
           <a href="https://www.latticesemi.com/" target="_blank" rel="noopener">
             <img
-              src="lattice-logo.png"
+              src="imgs/Lattice Logo Yellow_White.png"
               alt="Lattice Semiconductor Logo"
               class="banner-logo"
             />
           </a>
           <nav class="top-nav">
             <a href="index.html" class="nav-link">MIPI Configuration</a>
-            <a href="dphy.html" class="nav-link active">D-PHY Parameter</a>
+            <a href="dphy.html" class="nav-link active">Soft D-PHY Parameter</a>
+            <a href="video_timing.html" class="nav-link">Video Timing</a>
           </nav>
         </div>
       </div>
     </header>
-    <!-- Device selector below banner -->
-    <div
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 1.2rem;
-        margin-bottom: 1.2rem;
-      "
-    >
-      <div style="display: flex; align-items: center; gap: 0.7rem">
-        <label for="device-select" style="font-weight: bold; font-size: 1em"
-          >Device:</label
+    <div class="dphy-bg-container">
+      <main>
+        <!-- Top description row as flexbox, matching video_timing.html -->
+        <div
+          class="dphy-description-row"
+          style="
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            margin-top: -1.5rem;
+          "
         >
-        <select
-          id="device-select"
-          style="font-size: 1em; padding: 0.3rem 1.2rem; border-radius: 0.4rem"
-        >
-          <option value="CrossLink-NX">CrossLink-NX</option>
-          <option value="Avant">Avant</option>
-        </select>
-      </div>
-    </div>
-    <main>
-      <div
-        style="
-          position: relative;
-          width: auto;
-          min-height: 600px;
-          margin-left: 20px;
-        "
-      >
-        <div class="description-box absolute-left">
-          <div class="desc-title">D-PHY Timing Calculator</div>
+          <!-- Description column -->
           <div
-            class="desc-text"
-            style="font-weight: normal; width: 380px; text-align: left"
+            class="description-box"
+            style="
+              max-width: 380px;
+              min-width: 260px;
+              margin-top: 2rem;
+              background: rgba(255, 255, 255, 0.05);
+              padding: 1.5rem;
+              border-radius: 8px;
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            "
           >
-            Lattice Radiant automatically calculates protocol timing parameters
-            based on user input. However, users can also customize these
-            parameters. This tool assists in calculating alternative D-PHY
-            timing parameter values.<br /><br />
-            <strong>Instructions:</strong><br />
-            1. Insert desired D-PHY Clock Frequency and Bit Rate into their
-            fields. <br />
-            2. Press "Calculate" to show the values for TX timing parameters and
-            DX timing output.
-            <br />
-            3. Choose a value between Min and Max for each parameter for your
-            own design.<br /><br />
-            <strong>Customizing TX D-PHY Protocol Timing Parameters:</strong
-            ><br />
-            1. In Lattice Radiant, open the "Module/IP Block Wizard" for the TX
-            D-PHY IP. <br />
-            2. Navigate to the "Protocol Timing Parameter tab". <br />
-            3. Select the "Customize TX Timing Parameter Values" option. <br />
-            4. Modify the parameters according to the values provided by this
-            tool. <br />
-            5. Click the "Generate" button to save your changes.
+            <h2>Soft D-PHY Timing Calculator</h2>
+            <p style="font-weight: normal">
+              Lattice Radiant automatically calculates protocol timing
+              parameters based on user input. However, users can also customize
+              these parameters. This tool assists in calculating alternative
+              D-PHY timing parameter values.<br />
+              <strong>THIS IS MEANT TO BE USED FOR SOFT D-PHY ONLY</strong>
+            </p>
+            <div style="margin-top: 1rem; font-weight: normal">
+              <a
+                href="https://www.latticesemi.com/Products/DesignSoftwareAndIP/IntellectualProperty/IPCore/IPCores04/CSI2DSIDPHYTransmitter"
+                target="_blank"
+                rel="noopener"
+                style="color: #fcdf50; text-decoration: underline"
+                >Lattice MIPI D-PHY TX Page</a
+              >
+              <br /><br />
+              <a
+                href="https://www.latticesemi.com/Products/DesignSoftwareAndIP/IntellectualProperty/IPCore/IPCores04/CSI2DSIDPHYReceiver"
+                target="_blank"
+                rel="noopener"
+                style="color: #fcdf50; text-decoration: underline"
+                >Lattice MIPI D-PHY RX Page</a
+              >
+              <br /><br />
+              <img
+                id="rxTimingDiagram"
+                src="imgs/rxtiming_lightmode.svg"
+                class="img-magnify"
+                alt="RX Timing Diagram"
+                style="width: 20rem; margin-bottom: 0.2rem"
+              />
+              <div
+                style="
+                  font-size: 0.8em;
+                  color: #888;
+                  margin-top: 0;
+                  width: 150px;
+                "
+              >
+                Click this image to enlarge
+              </div>
+            </div>
+          </div>
+          <!-- Instructions column -->
+          <div
+            class="description-box"
+            style="
+              max-width: 380px;
+              min-width: 260px;
+              margin-top: 2rem;
+              background: rgba(255, 255, 255, 0.05);
+              padding: 1.5rem;
+              border-radius: 8px;
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <h2>Instructions</h2>
+            <ol style="font-weight: normal; padding-left: 1.2rem">
+              <li>
+                Insert desired D-PHY Clock Frequency and Bit Rate into their
+                fields.
+              </li>
+              <li>
+                Press "Calculate" to show the values for TX timing parameters
+                and DX timing output.
+              </li>
+              <li>
+                Choose a value between Min and Max for each parameter for your
+                own design.
+              </li>
+            </ol>
+            <h2>Customizing TX Soft D-PHY Protocol Timing Parameters:</h2>
+            <ol
+              style="
+                font-weight: normal;
+                padding-left: 1.2rem;
+                margin-top: 0rem;
+              "
+            >
+              <li>
+                In Lattice Radiant, open the "Module/IP Block Wizard" for the TX
+                D-PHY IP.
+              </li>
+              <li>Navigate to the "Protocol Timing Parameter tab".</li>
+              <li>Select the "Customize TX Timing Parameter Values" option.</li>
+              <li>
+                Modify the parameters according to the values provided by this
+                tool.
+              </li>
+              <li>Click the "Generate" button to save your changes.</li>
+            </ol>
           </div>
         </div>
+        <!-- Main content row as flexbox -->
         <div class="main-content-padded">
           <div
             style="
@@ -146,44 +218,46 @@
               flex-direction: column;
               align-items: center;
               width: 100%;
-              margin-left: -11rem;
+              margin-left: 0;
+              margin-top: 0;
             "
           >
             <div
               class="container center-fields"
-              style="max-width: 420px; position: relative; align-self: center"
+              style="min-width: 840px; position: relative; align-self: center"
             >
               <form id="dphy-form" autocomplete="off">
                 <div class="field-group">
-                  <label for="dphy-clock">D-PHY Clock Frequency (MHz):</label>
-                  <input
-                    type="number"
-                    id="dphy-clock"
-                    min="1"
-                    step="any"
-                    placeholder="Insert number here"
-                    required
-                  />
-                </div>
-                <div class="field-group">
-                  <label for="bit-rate" style="margin-top: 1rem"
-                    >Bit Rate (Mbps):</label
-                  >
+                  <label for="bit-rate">Bit Rate (Mbps):</label>
                   <input
                     type="number"
                     id="bit-rate"
-                    min="160"
-                    max="800"
+                    min="80"
+                    max="2500"
                     step="1"
-                    placeholder="160-800"
+                    placeholder="80-2500"
                     required
                   />
                 </div>
-                <div class="button-row" style="margin-top: 1.2rem">
-                  <button type="button" id="calc-dphy-btn" class="action-btn">
+                <div
+                  class="button-row"
+                  style="margin-top: 1.2rem; display: flex; gap: 1.2rem"
+                >
+                  <button
+                    type="reset"
+                    class="action-btn"
+                    style="min-width: 120px"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    type="button"
+                    id="calc-dphy-btn"
+                    class="action-btn"
+                    style="min-width: 120px"
+                  >
                     Calculate
                   </button>
-                  <button type="reset" class="action-btn">Clear</button>
                 </div>
                 <!-- Output section for UI(ps) and Byte Clock Period -->
                 <div
@@ -194,23 +268,38 @@
                     flex-direction: column;
                     gap: 0.5rem;
                     align-items: flex-start;
+                    color: #ffffff;
                   "
                 >
                   <div>
                     <strong>UI (ps):</strong> <span id="out-ui-ps"></span>
                   </div>
                   <div>
-                    <strong>Byte Clock Period:</strong>
+                    <strong>D-PHY Clock Frequency (MHz):</strong>
+                    <span id="dphy-clock"></span>
+                  </div>
+                  <div>
+                    <strong>Byte Clock Period (ps):</strong>
                     <span id="out-byte-clock-period"></span>
+                  </div>
+                  <div>
+                    <strong>D-PHY Clock Period (ns):</strong>
+                    <span id="out-clock-per-min"></span>
+                  </div>
+                  <div>
+                    <strong>Byte Clock Frequency (MHz):</strong>
+                    <span id="out-byte-freq-min"></span>
                   </div>
                 </div>
               </form>
             </div>
             <div
               class="description-box"
-              style="max-width: 900px; margin: 0 auto"
+              style="max-width: 900px; margin: 0 auto; margin-top: 2rem"
             >
-              <div class="desc-title">TX Timing Outputs</div>
+              <div class="desc-title" style="margin-top: 3rem">
+                TX Timing Outputs
+              </div>
               <table
                 class="table-border"
                 id="dphy-output-table"
@@ -221,28 +310,10 @@
                     <td>Parameter</td>
                     <td>Min</td>
                     <td>Max</td>
-                    <td>Choice</td>
+                    <td>IP Default</td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>D_PHY Clock per (ns)</td>
-                    <td id="out-clock-per-min"></td>
-                    <td id="out-clock-per-max"></td>
-                    <td id="out-clock-per-choice"></td>
-                  </tr>
-                  <tr>
-                    <td>Byte Clock Frequency (MHz)</td>
-                    <td id="out-byte-freq-min"></td>
-                    <td id="out-byte-freq-max"></td>
-                    <td id="out-byte-freq-choice"></td>
-                  </tr>
-                  <tr>
-                    <td>Byte Clock per (ns)</td>
-                    <td id="out-byte-per-min"></td>
-                    <td id="out-byte-per-max"></td>
-                    <td id="out-byte-per-choice"></td>
-                  </tr>
                   <tr>
                     <td>t_LPX</td>
                     <td id="out-lpx-min"></td>
@@ -328,7 +399,7 @@
                     <td>Parameter</td>
                     <td>Min</td>
                     <td>Max</td>
-                    <td>Choice</td>
+                    <td>IP Default</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -343,8 +414,52 @@
             </div>
           </div>
         </div>
+      </main>
+      <script src="dphy.js"></script>
+      <script src="video_timing.js"></script>
+      <div id="imgModal" class="img-modal" style="display: none">
+        <span
+          class="img-modal-close"
+          id="imgModalClose"
+          style="
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 11;
+          "
+          >&times;</span
+        >
+        <img
+          class="img-modal-content"
+          id="imgModalContent"
+          style="
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: 0;
+            display: block;
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+          "
+        />
       </div>
-    </main>
-    <script src="dphy.js"></script>
+      <script>
+        // Enlarge image on click
+        document.getElementById("rxTimingDiagram").onclick = function () {
+          var modal = document.getElementById("imgModal");
+          modal.classList.add("show");
+          document.getElementById("imgModalContent").src = this.src;
+        };
+        document.getElementById("imgModalClose").onclick = function () {
+          document.getElementById("imgModal").classList.remove("show");
+        };
+        // Close modal when clicking outside the image
+        document.getElementById("imgModal").onclick = function (e) {
+          if (e.target === this) this.classList.remove("show");
+        };
+      </script>
+    </div>
   </body>
 </html>
